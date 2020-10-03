@@ -30,7 +30,7 @@ Open IRIS terminal:
 
 ```
 $ docker-compose exec iris iris session iris
-USER>zn "IRISAPP"
+USER>zn "FEEDER"
 IRISAPP>write ##class(PackageSample.ObjectScript).Test()
 ```
 ## How to start coding
