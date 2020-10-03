@@ -828,6 +828,12 @@ ClassMethod GetMsgBLogReport(pIris As %String, pUnitTest As %String, ByRef pMsgB
 	Quit tSC
 }
 
+ClassMethod TestMethod() As %Status
+{
+	Write "Your Feeder is ready.",!
+	Quit $$$OK
+}
+
 ClassMethod TimeAdjust(pInput As %String = "", pAdjust As %String = "-5h") As %String
 {
 	Set tOutput = pInput
