@@ -1,0 +1,40 @@
+<html>
+<head>
+
+<!-- Put your page Title here -->
+<title>	Cache Server Page </title>
+
+</head>
+
+<body>
+<script language="Cache" runat="Server">
+Set tFiles = "1"
+Set tMethod = ""
+If ($Data(%request.Data("whichTest",1))) {
+	Set tMethod = %request.Data("whichTest",1)
+	Write "whichTest"
+	Write " - tMethod = ",tMethod
+}
+If ($Data(%request.Data("iFiles",1))) {
+	Set tFiles = %request.Data("iFiles",1)
+	Write " - tFiles = ",tFiles
+} Else {
+	Write %request.CgiEnvs("HTTP_USER_AGENT")
+	//Write %request.CgiEnvs("REMOTE_ADDR")
+	//Write %request.CgiEnvs("REMOTE_HOST")
+}
+If (tMethod '= "") {
+	Job $CLASSMETHOD("Feeder.UnitTests",tMethod,tFiles)
+}
+</script>
+<form>
+<input type="radio" id="HealthTest" name="whichTest" value="HealthTest">
+<label for="HealthTest">HealthTest</label><br>
+<input type="radio" id="LBTest" name="whichTest" value="LBTest">
+<label for="LBTest">Load Balancer Test</label><br>
+<label for="iFiles">Number of Test Files to generate:</label>
+<input type="text" id="iFiles" name="iFiles"><br>
+<input type="submit" value="Submit">
+</form>
+</body>
+</html>
