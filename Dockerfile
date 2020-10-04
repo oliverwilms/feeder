@@ -7,8 +7,8 @@ FROM $IMAGE
 
 USER root
 
-WORKDIR /opt/irisapp
-RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/irisapp
+WORKDIR /opt/feeder
+RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder
 USER ${ISC_PACKAGE_MGRUSER}
 
 COPY  Installer.cls .
