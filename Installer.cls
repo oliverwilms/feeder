@@ -4,7 +4,7 @@ Class App.Installer
 XData setup
 {
 <Manifest>
-  <Default Name="SourceDir" Value="#{$system.Process.CurrentDirectory()}src"/>
+  <Default Name="SourceDir" Value="/opt/feeder/src"/>
   <Default Name="Namespace" Value="FEEDER"/>
   <Default Name="app" Value="feeder" />
 
