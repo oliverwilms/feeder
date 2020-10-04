@@ -9,7 +9,8 @@ USER root
 
 WORKDIR /opt/feeder
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder
-USER ${ISC_PACKAGE_MGRUSER}
+
+USER irisowner
 
 COPY  Installer.cls .
 COPY  src src
