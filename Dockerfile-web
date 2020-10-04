@@ -6,8 +6,8 @@ FROM $IMAGE
 
 USER root
 
-WORKDIR /opt/irisapp
-RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/irisapp
+WORKDIR /opt/feeder
+RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder
 
 USER irisowner
 
@@ -21,8 +21,8 @@ RUN \
   set sc = ##class(App.Installer).setup() \
   zn "%SYS" \
   write "Create web application ...",! \
-  set webName = "/csp/irisweb" \
-  set webProperties("NameSpace") = "IRISAPP" \
+  set webName = "/csp/feeder" \
+  set webProperties("NameSpace") = "FEEDER" \
   set webProperties("Enabled") = 1 \
   set webProperties("CSPZENEnabled") = 1 \
   set webProperties("AutheEnabled") = 32 \

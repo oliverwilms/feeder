@@ -4,11 +4,11 @@ Class App.Installer
 XData setup
 {
 <Manifest>
-  <Default Name="SourceDir" Value="#{$system.Process.CurrentDirectory()}src"/>
-  <Default Name="Namespace" Value="IRISAPP"/>
-  <Default Name="app" Value="irisapp" />
+  <Default Name="SourceDir" Value="/opt/feeder/src"/>
+  <Default Name="Namespace" Value="FEEDER"/>
+  <Default Name="app" Value="feeder" />
 
-  <Namespace Name="${Namespace}" Code="${Namespace}" Data="${Namespace}" Create="yes" Ensemble="0">
+  <Namespace Name="${Namespace}" Code="${Namespace}" Data="${Namespace}" Create="yes" Ensemble="1">
 
     <Configuration>
       <Database Name="${Namespace}" Dir="/opt/${app}/data" Create="yes" Resource="%DB_${Namespace}"/>
