@@ -23,6 +23,7 @@ ClassMethod HealthTest(pFiles As %String = 1) As %Status
 		Do ##class(Feeder.TestProduction).Run()
 	}
 	Kill ^myUnitTestControl
+	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - HealthTest is done")
 	Quit $$$OK
 }
 
@@ -41,6 +42,7 @@ ClassMethod LBTest(pFiles As %String = 1, pPort As %Integer = 52773) As %Status
 	Set ^UnitTestRoot = ""
 	Do ##class(Feeder.TestProduction).Run()
 	Kill ^myUnitTestControl
+	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - LBTest is done")
 	Quit $$$OK
 }
 

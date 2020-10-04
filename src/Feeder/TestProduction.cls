@@ -84,11 +84,11 @@ Method OnBeforeProductionStart() As %Status
 	Set tSC = ##class(Feeder.Util).GetProductionStates(pServer,pPort,pFiles)
 	Set tSC = ##class(Feeder.Util).GetDocumentId(0,.pDocumentId)
 	Set tSC = ##class(Feeder.Util).GetMsgBankCount(0,.pMsgBankCount)
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp("","DocIdBefore",$Get(pDocumentId))
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp("","MsgBkBefore",$Get(pMsgBankCount))
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp("","TargetServer",pServer)
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp("","TargetPort",pPort)
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp("","TargetURL",pURL)
+	Set tSC = ##class(Feeder.Test).UpdateMyProp("","DocIdBefore",$Get(pDocumentId))
+	Set tSC = ##class(Feeder.Test).UpdateMyProp("","MsgBkBefore",$Get(pMsgBankCount))
+	Set tSC = ##class(Feeder.Test).UpdateMyProp("","TargetServer",pServer)
+	Set tSC = ##class(Feeder.Test).UpdateMyProp("","TargetPort",pPort)
+	Set tSC = ##class(Feeder.Test).UpdateMyProp("","TargetURL",pURL)
 	If ($Extract(pFiles,1,2) = "CC") {
 		Set tSC = ##class(Feeder.UnitTests).CopyCCS()
 		Do $$$AssertStatusOK(tSC,"CopyCCS returned")
@@ -137,9 +137,9 @@ Method CheckResults(ByRef Log As %String, New As %String) As %Status
 	Set tBeginEnd = " between "_tBegin_" and "_tEnd
 	Set tVerb = "processed"
 	Do ..LogMessage("This production "_$Get(tVerb,"sent")_" "_tMsgCount_" message(s)"_$Get(tBeginEnd)_".")
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp("","myMsgBegin",tBegin)
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp("","myMsgCount",tMsgCount)
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp("","myMsgEnd",tEnd)
+	Set tSC = ##class(Feeder.Test).UpdateMyProp("","myMsgBegin",tBegin)
+	Set tSC = ##class(Feeder.Test).UpdateMyProp("","myMsgCount",tMsgCount)
+	Set tSC = ##class(Feeder.Test).UpdateMyProp("","myMsgEnd",tEnd)
 	Quit tSC
 }
 
@@ -156,7 +156,7 @@ Method CheckErrors() As %Status
 	Set text = $Get(err(1,"Text"))
 	Set eText = "Test error case"
 	//Set s2 = $$$AssertTrue(text[eText,"Should contain '"_eText_"'(found: '"_text_"')")
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp("","myErrCount",$Get(new))
+	Set tSC = ##class(Feeder.Test).UpdateMyProp("","myErrCount",$Get(new))
 	If 's1||'s2 Set tSC=..Error("Expected error entries don't match")
 	Quit tSC
 }
@@ -185,8 +185,8 @@ Method OnAfterAllTests() As %Status
 	Do ..DebugTEST("OnAfterAllTests")
 	Set tSC = ##class(Feeder.Util).GetDocumentId(0,.pDocumentId)
 	Set tSC = ##class(Feeder.Util).GetMsgBankCount(0,.pMsgBankCount)
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp("","DocIdAfter",$Get(pDocumentId))
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp("","MsgBkAfter",$Get(pMsgBankCount))
+	Set tSC = ##class(Feeder.Test).UpdateMyProp("","DocIdAfter",$Get(pDocumentId))
+	Set tSC = ##class(Feeder.Test).UpdateMyProp("","MsgBkAfter",$Get(pMsgBankCount))
 	Quit $$$OK
 	// ..TestResultsAfterStop() and ..TestErrorsAfterStop() are automatically called
 	Set tSC = ..TestResultsAfterStop()
@@ -224,9 +224,9 @@ Method TestResultsAfterStop() As %Status
 		}
 	}
 	Do ..LogMessage(" IRIS processed "_tTargetMsgCount_" total message(s).")  // from "_tBegin_" till "_tEnd_".")
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp(myUnitTest,"TargetMsgBegin",tTargetMsgBegin)
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp(myUnitTest,"TargetMsgCount",tTargetMsgCount)
-	Set tSC = ##class(UnitTest.Test).UpdateMyProp(myUnitTest,"TargetMsgEnd",tTargetMsgEnd)
+	Set tSC = ##class(Feeder.Test).UpdateMyProp(myUnitTest,"TargetMsgBegin",tTargetMsgBegin)
+	Set tSC = ##class(Feeder.Test).UpdateMyProp(myUnitTest,"TargetMsgCount",tTargetMsgCount)
+	Set tSC = ##class(Feeder.Test).UpdateMyProp(myUnitTest,"TargetMsgEnd",tTargetMsgEnd)
 	Set tSC = $$$AssertNotEquals(tTargetMsgCount,0,"Total Messages Count is (not) zero.")
 	Quit tSC
 }
@@ -253,7 +253,7 @@ Method TestErrorsAfterStop() As %Status
 			}
 		}
 	}
-	Do ##class(UnitTest.Test).UpdateMyProp(myUnitTest,"TargetErrCount",tAllErrors)
+	Do ##class(Feeder.Test).UpdateMyProp(myUnitTest,"TargetErrCount",tAllErrors)
 	If (tSC = $$$OK) Set tSC = $$$AssertEquals(tAllErrors,0,"Total Error Count is zero.")
 	Quit tSC
 }

@@ -12,7 +12,7 @@ Class Feeder.Ensemble
 /// See method Ens.Director.ParseConfigName() for full syntax of the ConfigItem name specification string.
 ClassMethod EnableConfigItem(pConfigItemName As %String, pEnable As %Boolean = 1, pDoUpdate As %Boolean = 1) As %Status
 {
-	Do ##class(Feeder.Util).DebugTEST("Feeder..Ensemble - EnableConfigItem")
+	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - EnableConfigItem")
 	Set tSC = ##class(Ens.Director).EnableConfigItem(pConfigItemName, pEnable, pDoUpdate)
 	Do ##class(Feeder.Util).DebugStatus(tSC)
 	Quit tSC
@@ -20,7 +20,7 @@ ClassMethod EnableConfigItem(pConfigItemName As %String, pEnable As %Boolean = 1
 
 ClassMethod ExecuteQueryOneValue(pQuery As %String, ByRef pResult As %String) As %Status
 {
-	Do ##class(Feeder.Util).DebugTEST("Feeder..Ensemble - ExecuteQueryOneValue")
+	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - ExecuteQueryOneValue")
 	Do ##class(Feeder.Util).DebugTEST("pQuery = "_pQuery)
 	Set pResult = ""
 	Set rs = ##class(%ResultSet).%New()
@@ -81,7 +81,7 @@ ClassMethod GetMacros(Output MacroVars As %String) [ CodeMode = objectgenerator,
 /// 	Log(1,"Type")="Info"
 ClassMethod GetEventLog(type As %String = "all", name As %String = "", baseId As %Integer, ByRef v As %String, Output New As %Integer) As %Status
 {
-	Do ##class(Feeder.Util).DebugTEST("Feeder..Ensemble - GetEventLog")
+	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - GetEventLog")
 	// First, build cross table for record types: strings to Ensemble constants
 	Do ..GetMacros(.Macro)
 	Kill Trans
@@ -172,7 +172,7 @@ ClassMethod GetEventLog(type As %String = "all", name As %String = "", baseId As
 
 ClassMethod GetMessages(type As %String = "all", name As %String = "", baseId As %Integer, ByRef v As %String, Output New As %Integer, Output Begin As %String, Output End As %String) As %Status
 {
-	Do ##class(Feeder.Util).DebugTEST("Feeder..Ensemble - GetMessages")
+	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - GetMessages")
 	Set (Begin,End) = ""
 	Set New = 0
 	Set baseId = 0 + $Get(baseId)
@@ -213,7 +213,7 @@ ClassMethod GetMessages(type As %String = "all", name As %String = "", baseId As
 
 ClassMethod GetProductionStatus(Output pProductionName As %String, Output pState As %String) As %Status
 {
-	Do ##class(Feeder.Util).DebugTEST("Feeder..Ensemble - GetProductionStatus")
+	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - GetProductionStatus")
 	Set tSC = ##class(Ens.Director).GetProductionStatus(.pProductionName, .pState)
 	Do ##class(Feeder.Util).DebugTEST("pProductionName = "_pProductionName)
 	Do ##class(Feeder.Util).DebugTEST("pState = "_pState)
@@ -310,7 +310,7 @@ ClassMethod ChangeOrGetSetting(operation As %String = "Get", production As %Stri
 /// https://community.intersystems.com/post/adding-business-hosts-programmatically-pre-existing-production
 ClassMethod InsertConfigItem(productionName As %Dictionary.CacheClassname, name As %String = "", class As %Dictionary.CacheClassname) As %Status
 {
-	Do ##class(Feeder.Util).DebugTEST("Feeder..Ensemble - StartProduction")
+	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - StartProduction")
 	If $Get(productionName) = "" Set productionName = ##class(Ens.Director).GetActiveProductionName()
 	Do ##class(Feeder.Util).DebugTEST("productionName ="_productionName)
     Set production = ##class(Ens.Config.Production).%OpenId(productionName)
@@ -336,7 +336,7 @@ ClassMethod InsertConfigItem(productionName As %Dictionary.CacheClassname, name 
 /// pProductionName: The name of the production to be started.  If not specified, defaults to the "last" production used (if any).
 ClassMethod StartProduction(pProductionName As %String = {$GET(^Ens.Configuration("csp","LastProduction"))}) As %Status
 {
-	Do ##class(Feeder.Util).DebugTEST("Feeder..Ensemble - StartProduction")
+	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - StartProduction")
 	Set tSC = ##class(Ens.Director).StartProduction(pProductionName)
 	Do ##class(Feeder.Util).DebugStatus(tSC)
 	Quit tSC
@@ -347,7 +347,7 @@ ClassMethod StartProduction(pProductionName As %String = {$GET(^Ens.Configuratio
 /// pForce:   It indicates if we should forcefully kill the jobs which can not stop by themselves.
 ClassMethod StopProduction(pTimeout As %Numeric = 10, pForce As %Boolean = 0) As %Status
 {
-	Do ##class(Feeder.Util).DebugTEST("Feeder..Ensemble - StopProduction")
+	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - StopProduction")
 	Set tSC = ##class(Ens.Director).StopProduction(pTimeout, pForce)
 	Do ##class(Feeder.Util).DebugStatus(tSC)
 	Quit tSC
@@ -355,7 +355,7 @@ ClassMethod StopProduction(pTimeout As %Numeric = 10, pForce As %Boolean = 0) As
 
 ClassMethod TEST(FILENAME As %String = "") As %Status
 {
-	Do ##class(Feeder.Util).DebugTEST("Feeder..Ensemble - TEST")
+	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - TEST")
 	Quit $$$OK
 }
 
