@@ -310,11 +310,16 @@ ClassMethod ChangeOrGetSetting(operation As %String = "Get", production As %Stri
 /// https://community.intersystems.com/post/adding-business-hosts-programmatically-pre-existing-production
 ClassMethod InsertConfigItem(productionName As %Dictionary.CacheClassname, name As %String = "", class As %Dictionary.CacheClassname) As %Status
 {
-	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - StartProduction")
+	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - InsertConfigItem")
 	If $Get(productionName) = "" Set productionName = ##class(Ens.Director).GetActiveProductionName()
 	Do ##class(Feeder.Util).DebugTEST("productionName ="_productionName)
     Set production = ##class(Ens.Config.Production).%OpenId(productionName)
 	Do ##class(Feeder.Util).DebugTEST("production ="_production)
+	If '$IsObject(production) {
+		Set tSC = $$$ERROR($$$GeneralError,"Production error")
+	    Do ##class(Feeder.Util).DebugStatus(tSC)
+		Quit tSC
+	}
     Set item = ##class(Ens.Config.Item).%New()
 	Do ##class(Feeder.Util).DebugTEST("item ="_item)
     Set item.PoolSize = 1
@@ -337,7 +342,11 @@ ClassMethod InsertConfigItem(productionName As %Dictionary.CacheClassname, name 
 ClassMethod StartProduction(pProductionName As %String = {$GET(^Ens.Configuration("csp","LastProduction"))}) As %Status
 {
 	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - StartProduction")
-	Set tSC = ##class(Ens.Director).StartProduction(pProductionName)
+	Try {
+		Set tSC = ##class(Ens.Director).StartProduction(pProductionName)
+	} Catch {
+		Do ##class(Feeder.Util).DebugTEST("Something went wrong")
+	}
 	Do ##class(Feeder.Util).DebugStatus(tSC)
 	Quit tSC
 }
