@@ -311,17 +311,18 @@ ClassMethod ChangeOrGetSetting(operation As %String = "Get", production As %Stri
 ClassMethod InsertConfigItem(productionName As %Dictionary.CacheClassname, name As %String = "", class As %Dictionary.CacheClassname) As %Status
 {
 	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - InsertConfigItem")
+	If $Get(productionName) = "" Set productionName = "Feeder.FeederProduction"
 	If $Get(productionName) = "" Set productionName = ##class(Ens.Director).GetActiveProductionName()
-	Do ##class(Feeder.Util).DebugTEST("productionName ="_productionName)
+	Do ##class(Feeder.Util).DebugTEST("productionName = "_productionName)
     Set production = ##class(Ens.Config.Production).%OpenId(productionName)
-	Do ##class(Feeder.Util).DebugTEST("production ="_production)
+	Do ##class(Feeder.Util).DebugTEST("production = "_production)
 	If '$IsObject(production) {
 		Set tSC = $$$ERROR($$$GeneralError,"Production error")
 	    Do ##class(Feeder.Util).DebugStatus(tSC)
 		Quit tSC
 	}
     Set item = ##class(Ens.Config.Item).%New()
-	Do ##class(Feeder.Util).DebugTEST("item ="_item)
+	Do ##class(Feeder.Util).DebugTEST("item = "_item)
     Set item.PoolSize = 1
     Set item.Name = name
     Set item.ClassName = class
@@ -331,9 +332,13 @@ ClassMethod InsertConfigItem(productionName As %Dictionary.CacheClassname, name 
     Do ##class(Feeder.Util).DebugStatus(tSC)
     Quit:$$$ISERR(tSC) tSC
     //Set sc = $$$AuditModifyProductionConfig(production.Name,item.Name,$$$Text("Item added to production using generator in " _ $classname()))
-    Quit:$$$ISERR(tSC) tSC   
-    Set tSC = ##class(EnsPortal.Template.prodConfigSCPage).CallProductionUpdateAndSaveToClass(production,"","SaveProduction")
-    Do ##class(Feeder.Util).DebugStatus(tSC)
+    Quit:$$$ISERR(tSC) tSC
+    Try {
+	    Set tSC = ##class(EnsPortal.Template.prodConfigSCPage).CallProductionUpdateAndSaveToClass(production,"","SaveProduction")
+	} Catch {
+		Do ##class(Feeder.Util).DebugTEST("Something went wrong")
+	}
+	Do ##class(Feeder.Util).DebugStatus(tSC)
 	Quit tSC
 }
 
