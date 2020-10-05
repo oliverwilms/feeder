@@ -24,10 +24,7 @@ XData setup
 </Manifest>
 }
 
-ClassMethod CreateWebAppREST(
-  pVars,
-  pLogLevel,
-  tInstaller) As %Status
+ClassMethod CreateWebAppREST(pVars,pLogLevel,tInstaller) As %Status
 {
   Set Namespace = tInstaller.Evaluate("${Namespace}")
   Do tInstaller.PushNS("%SYS")
