@@ -14,6 +14,7 @@ USER irisowner
 
 COPY  Installer.cls .
 COPY  src src
+COPY csp /usr/irissys/csp 
 COPY iris.script /tmp/iris.script
 
 # run iris and initial 
