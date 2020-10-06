@@ -14,8 +14,9 @@ USER irisowner
 
 COPY  Installer.cls .
 COPY  src src
-COPY csp /usr/irissys/csp 
+COPY csp /usr/irissys/csp/feeder
 COPY iris.script /tmp/iris.script
+RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /usr/irissys/csp/feeder
 
 # run iris and initial 
 RUN iris start IRIS \
