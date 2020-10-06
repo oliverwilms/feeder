@@ -18,5 +18,5 @@ COPY iris.script /tmp/iris.script
 
 # run iris and initial 
 RUN iris start IRIS \
-    && iris session IRIS < /tmp/iris.script \
+    && iris session IRIS -U %SYS < /tmp/iris.script \
     && iris stop IRIS quietly
