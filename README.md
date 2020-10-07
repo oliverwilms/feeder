@@ -33,6 +33,10 @@ $ docker-compose exec iris iris session iris
 USER>zn "FEEDER"
 FEEDER>write ##class(Feeder.Util).TestMethod()
 ```
+## Use it
+Link to the Feeder Cache Server Page here: http://localhost:52773/csp/feeder/Feeder.csp
+You need to replace localhost with the ip address if the Feeder runs on a remote server.
+
 ## File Passthrough Feeder
 IRIS Interoperability Productions formerly known as Ensemble are fun to work with. Yes, I really think my work is fun. I have seen File Passthrough Services and File Passthrough Operations come in handy. At one point we placed test messages in files, then we utilized a File Passthrough Service with Inbound File Adapter to send the contents of the file as a Stream to a File Passthrough Operation with Outbound TCP Adapter. The Operation pointed at a TCP service and sent the test messages.
 
