@@ -24,28 +24,10 @@ XData ProductionDefinition
 <Production Name="Feeder.FeederProduction" TestingEnabled="true" LogGeneralTraceEvents="true">
   <Description></Description>
   <ActorPoolSize>2</ActorPoolSize>
-  <Setting Target="Adapter" Name="AlertNotificationManager">Ens.AlertNotification</Setting>
-  <Setting Target="Adapter" Name="AlertNotificationOperation">EMail.AlertOperation</Setting>
-  <Item Name="Ens.Alert" Category="Alert" ClassName="Ens.Alerting.AlertManager" PoolSize="1" Enabled="false" Foreground="false" Comment="Generates managed alerts on errors" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="CreateManagedAlertRule">HS.Local.VA.eSCM.DMLSS.Alert.ManagedAlertsRule</Setting>
-  </Item>
-  <Item Name="Ens.AlertNotification" Category="Alert" ClassName="Ens.Alerting.NotificationManager" PoolSize="1" Enabled="false" Foreground="false" Comment="Routes managed alerts to appropriate email operations" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="NotificationTransform">HS.Local.VA.eSCM.DMLSS.Alert.AlertRoutingTransformation</Setting>
-  </Item>
-  <Item Name="EMail.AlertOperation" Category="Alert" ClassName="EnsLib.EMail.AlertOperation" PoolSize="1" Enabled="false" Foreground="false" Comment="Send Email alert to FMS team" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="IncludeDetails">1</Setting>
-    <Setting Target="Host" Name="SubjectPrefix">HC DMLSS Alert</Setting>
-    <Setting Target="Adapter" Name="SMTPPort">25</Setting>
-    <Setting Target="Adapter" Name="SMTPServer">smtp.va.gov</Setting>
-    <Setting Target="Adapter" Name="From">HSH.Feeder@va.gov</Setting>
-    <Setting Target="Host" Name="AlertOnError">0</Setting>
-  </Item>
-  <Item Name="ActivityMonitorLocal" Category="" ClassName="Ens.Activity.Operation.Local" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-  </Item>
   <Item Name="CSP Operation" Category="" ClassName="Feeder.CSPOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="Port">52773</Setting>
-    <Setting Target="Host" Name="Server">127.0.0.1</Setting>
-    <Setting Target="Host" Name="URL">/csp/healthshare/DLA_IN/DLAIN.csp?FILENAME=</Setting>
+    <Setting Target="Host" Name="Server">internal-dmlss-ecs-ALB-12345.us-gov-west-1.elb.amazonaws.com</Setting>
+    <Setting Target="Host" Name="URL">/csp/user/cache_status.cxw</Setting>
   </Item>
   <Item Name="File Passthrough Service" Category="" ClassName="EnsLib.File.PassthroughService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Adapter" Name="FilePath">/tmp/</Setting>
