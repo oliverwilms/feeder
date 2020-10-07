@@ -9,6 +9,8 @@ USER root
 
 WORKDIR /opt/feeder
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder
+COPY csp /usr/irissys/csp/feeder
+RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /usr/irissys/csp/feeder
 
 USER irisowner
 
@@ -18,5 +20,5 @@ COPY iris.script /tmp/iris.script
 
 # run iris and initial 
 RUN iris start IRIS \
-    && iris session IRIS < /tmp/iris.script \
+    && iris session IRIS -U %SYS < /tmp/iris.script \
     && iris stop IRIS quietly

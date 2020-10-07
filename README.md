@@ -33,18 +33,18 @@ $ docker-compose exec iris iris session iris
 USER>zn "FEEDER"
 FEEDER>write ##class(Feeder.Util).TestMethod()
 ```
-## How to start coding
-This repository is ready to code in VSCode with ObjectScript plugin.
-Install [VSCode](https://code.visualstudio.com/), [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) and [ObjectScript](https://marketplace.visualstudio.com/items?itemName=daimor.vscode-objectscript) plugin and open the folder in VSCode.
-Open /src/cls/PackageSample/ObjectScript.cls class and try to make changes - it will be compiled in running IRIS docker container.
-![docker_compose](https://user-images.githubusercontent.com/2781759/76656929-0f2e5700-6547-11ea-9cc9-486a5641c51d.gif)
+## File Passthrough Feeder
+IRIS Interoperability Productions formerly known as Ensemble are fun to work with. Yes, I really think my work is fun. I have seen File Passthrough Services and File Passthrough Operations come in handy. At one point we placed test messages in files, then we utilized a File Passthrough Service with Inbound File Adapter to send the contents of the file as a Stream to a File Passthrough Operation with Outbound TCP Adapter. The Operation pointed at a TCP service and sent the test messages.
 
-Feel free to delete PackageSample folder and place your ObjectScript classes in a form
-/src/Package/Classname.cls
-[Read more about folder setup for InterSystems ObjectScript](https://community.intersystems.com/post/simplified-objectscript-source-folder-structure-package-manager)
+Later I wanted to troubleshoot another service that received file contents as the body of HTTP requests. I created CSPOperation to send contents of files as HTTP requests to the CSP page that was responsible to receive these messages.
 
-The script in Installer.cls will import everything you place under /src into IRIS.
+I discovered %UnitTest.TestProduction class that provides a structured way to test Interoperability Productions and organize test results.
 
+When I started working with containers, I used my Feeder Production to send test messages to Application Load Balancer or directly to one container. I added test file creation scripts and generated test files before each Unit Test. I created REST API to query IRIS instances running in containers for messages processed and event log entries. I captured many metrics and created TestReport class to report detailed test results.
+
+I really enjoy putting the File Passthrough Feeder Production to work, as our development environment is not connected to anything to send test messages.
+
+I demonstrated the setup to our greater team. Some were not impressed by the cryptic messages on the terminal from the %UnitTest.TestProduction execution. Hence for the Full Stack Contest I decided to add a CSP page to interact with the Feeder UnitTest Production.
 
 ## What's inside the repository
 
@@ -71,4 +71,4 @@ Settings file to let you immedietly code in VSCode with [VSCode ObjectScript plu
 ### .vscode/launch.json
 Config file if you want to debug with VSCode ObjectScript
 
-[Read about all the files in this artilce](https://community.intersystems.com/post/dockerfile-and-friends-or-how-run-and-collaborate-objectscript-projects-intersystems-iris)
+[Article](https://community.intersystems.com/post/file-passthrough-feeder)
