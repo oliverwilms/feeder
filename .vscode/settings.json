@@ -5,7 +5,7 @@
         "iris.script": "objectscript"
       },
     "objectscript.conn" :{
-      "ns": "FEEDER",
+      "namespace": "FEEDER",
       "active": true,
       "username":"_SYSTEM",
       "password": "SYS",
@@ -14,7 +14,7 @@
         "internalPort": 52773
       },
       "links": {
-            "Feder": "http://${host}:${port}/csp/${ns}/Feeder.csp"
+            "Feeder": "http://${host}:${port}/csp/${namespace}/Feeder.csp"
       }
     }
 
