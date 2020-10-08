@@ -12,6 +12,9 @@
       "docker-compose": {
         "service": "iris",
         "internalPort": 52773
+      },
+      "links": {
+            "Feder": "http://${host}:${port}/csp/${ns}/Feeder.csp"
       }
     }
 
