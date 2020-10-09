@@ -9,6 +9,8 @@
       <Resource Name="Feeder.PKG"/>
       <CSPApplication
         Url="/csp/feeder"
+        PasswordAuthEnabled="1"
+        UnauthenticatedEnabled="0"
         SourcePath="/csp"
         DeployPath="{$cspdir}/feeder"
         ServeFiles="1"
