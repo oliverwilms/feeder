@@ -8,7 +8,7 @@
       <SourcesRoot>src</SourcesRoot>
       <Resource Name="Feeder.PKG"/>
       <CSPApplication
-        Url="/csp/feeder
+        Url="/csp/feeder"
         SourcePath="/csp"
         DeployPath="{$cspdir}/feeder"
         ServeFiles="1"
