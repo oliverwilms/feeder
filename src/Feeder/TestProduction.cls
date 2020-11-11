@@ -11,7 +11,7 @@ Parameter MAXWAIT = 10;
 /// Minimum time to let production run before collecting event log entries of type "infouser" and check for results. 
 /// The default is 10 seconds, override if necessary.  This varies with the production; some productions only
 /// need to run for a little time, and some require more time.
-Parameter MINRUN = 1800;
+Parameter MINRUN = 10;
 
 /// If any errors appear in the Event Log during execution of the production, the test will fail.
 /// If errors are expected to happen, override this parameter. 
