@@ -24,18 +24,6 @@ XData ProductionDefinition
 <Production Name="Feeder.FeederProduction" TestingEnabled="true" LogGeneralTraceEvents="true">
   <Description></Description>
   <ActorPoolSize>2</ActorPoolSize>
-  <Item Name="CSP Operation" Category="" ClassName="Feeder.CSPOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="Port">52773</Setting>
-    <Setting Target="Host" Name="Server">internal-dmlss-ecs-ALB-12345.us-gov-west-1.elb.amazonaws.com</Setting>
-    <Setting Target="Host" Name="URL">/csp/user/cache_status.cxw</Setting>
-  </Item>
-  <Item Name="File Passthrough Service" Category="" ClassName="EnsLib.File.PassthroughService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Adapter" Name="FilePath">/tmp/</Setting>
-    <Setting Target="Adapter" Name="FileSpec">IVA*</Setting>
-    <Setting Target="Adapter" Name="ConfirmComplete">2</Setting>
-    <Setting Target="Host" Name="TargetConfigNames">CSP Operation</Setting>
-    <Setting Target="Adapter" Name="ArchivePath"></Setting>
-  </Item>
 </Production>
 }
 
