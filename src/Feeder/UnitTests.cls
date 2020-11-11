@@ -1,16 +1,24 @@
 Class Feeder.UnitTests
 {
 
+ClassMethod Setup(pFiles As %String = 1) As %Status
+{
+	Set tSC = $$$OK
+	Set myNamespace = $Namespace
+	Set $Namespace = "%SYS"
+	Set ^SYS("Security","CSP","AllowPrefix","/csp/feeder/","%UnitTest.") = 1
+	//Set ^SYS("Security","CSP","AllowPrefix","/csp/healthshare/feeder/","%UnitTest.") = 1
+	Set $Namespace = myNamespace
+	Set ^myUnitTestControl("Files") = pFiles
+	Set ^myUnitTestControl("Production") = "Feeder.FeederProduction"
+	Quit tSC
+}
+
 /// Use "CC" for pFiles to test CCS
 ClassMethod HealthTest(pFiles As %String = 1) As %Status
 {
 	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - HealthTest")
-	Set myNamespace = $Namespace
-	Set $Namespace = "%SYS"
-	Set ^SYS("Security","CSP","AllowPrefix","/csp/dmlss_hc/","%UnitTest.")=1
-	Set ^SYS("Security","CSP","AllowPrefix","/csp/healthshare/dmlss_hc/","%UnitTest.")=1
-	Set $Namespace = myNamespace
-	Set ^myUnitTestControl("Files") = pFiles
+	Set tSC = ..Setup(pFiles)
 	Set tSC = ##class(Feeder.Util).GetContainerArray(.tIRIS)
 	Merge ^myUnitTestControl("IRIS") = tIRIS
 	Set tIRIS = ""
@@ -27,14 +35,12 @@ ClassMethod HealthTest(pFiles As %String = 1) As %Status
 	Quit $$$OK
 }
 
-ClassMethod LBTest(pFiles As %String = 1, pPort As %Integer = 52773) As %Status
+ClassMethod LBTest(
+	pFiles As %String = 1,
+	pPort As %Integer = 52773) As %Status
 {
 	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - LBTest")
-	Set myNamespace = $Namespace
-	Set $Namespace = "%SYS"
-	Set ^SYS("Security","CSP","AllowPrefix","/csp/dmlss_hc/","%UnitTest.")=1
-	Set ^SYS("Security","CSP","AllowPrefix","/csp/healthshare/dmlss_hc/","%UnitTest.")=1
-	Set $Namespace = myNamespace
+	Set tSC = ..Setup(pFiles)
 	Set ^myUnitTestControl("Server") = ##class(Feeder.Util).whichLoadBalancer()
 	Set ^myUnitTestControl("URL") = ##class(Feeder.Util).whichURL()
 	Set ^myUnitTestControl("Port") = pPort
@@ -51,11 +57,7 @@ ClassMethod LBTest(pFiles As %String = 1, pPort As %Integer = 52773) As %Status
 ClassMethod Init(pFiles As %String = 1) As %Status
 {
 	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - Init")
-	Set myNamespace = $Namespace
-	Set $Namespace = "%SYS"
-	Set ^SYS("Security","CSP","AllowPrefix","/csp/dmlss_hc/","%UnitTest.")=1
-	Set ^SYS("Security","CSP","AllowPrefix","/csp/healthshare/dmlss_hc/","%UnitTest.")=1
-	Set $Namespace = myNamespace
+	Set tSC = ..Setup(pFiles)
 	//Set ^UnitTestRoot = "/opt/unittests/"
 	//Do ##class(%UnitTest.Manager).RunTest("mytests")
 	//Do ##class(%UnitTest.Manager).RunTest("mytests:MyPackage.Tests")
@@ -74,11 +76,7 @@ ClassMethod Init(pFiles As %String = 1) As %Status
 /// Initiate Windows TestProduction
 ClassMethod InitWin() As %Status
 {
-	Set myNamespace = $Namespace
-	Set $Namespace = "%SYS"
-	Set ^SYS("Security","CSP","AllowPrefix","/csp/dmlss_hc/","%UnitTest.")=1
-	Set ^SYS("Security","CSP","AllowPrefix","/csp/healthshare/dmlss_hc/","%UnitTest.")=1
-	Set $Namespace = myNamespace
+	Set tSC = ..Setup(pFiles)
 	//Set ^UnitTestRoot = "C:\unittests"
 	//Do ##class(%UnitTest.Manager).RunTest("mytests")
 	//Do ##class(%UnitTest.Manager).RunTest("mytests:MyPackage.Tests")
@@ -113,7 +111,10 @@ ClassMethod CopyCCS() As %Status
 	Quit ((tZF1 + tZF2) = 0)
 }
 
-ClassMethod CopyFiles(pFrom As %String = "", pTo As %String = "", ByRef pFiles As %String = "") As %Status
+ClassMethod CopyFiles(
+	pFrom As %String = "",
+	pTo As %String = "",
+	ByRef pFiles As %String = "") As %Status
 {
 	Do ##class(Feeder.Util).DebugTEST("CopyFiles")
 	Set tSC = $$$OK
@@ -150,7 +151,9 @@ ClassMethod CopyFiles(pFrom As %String = "", pTo As %String = "", ByRef pFiles A
 	Quit (tZF = 0)
 }
 
-ClassMethod CopyFileWin(pFrom As %String = "", pTo As %String = "") As %Status
+ClassMethod CopyFileWin(
+	pFrom As %String = "",
+	pTo As %String = "") As %Status
 {
 	Set ^TEST($I(^TEST)) = "CopyFileWin"
 	Set pDeleteBeforeCopy = 0
