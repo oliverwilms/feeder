@@ -7,14 +7,17 @@ Property Server As %String(MAXLEN = 255);
 /// Port for connection.
 Property Port As %String(MAXLEN = 6);
 
-/// URL to connect to (optional). If not specified, it defaults to '/csp/healthshare/DLA_IN/DLAIN.csp?FILENAME='.
+/// URL to connect to (optional). If not specified, it defaults to '/csp/feeder/test.csp?FILENAME='.
 Property URL As %String(MAXLEN = 255);
 
 Parameter INVOCATION = "Queue";
 
 Parameter SETTINGS = "Server,Port,URL";
 
-Method SendMessage(pRequest As Ens.StreamContainer, Output pResponse As Ens.Response, pDEBUG As %String = 1) As %Status
+Method SendMessage(
+	pRequest As Ens.StreamContainer,
+	Output pResponse As Ens.Response,
+	pDEBUG As %String = 1) As %Status
 {
 	If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("Feeder.CSPOperation")
 	Set tErrorCount = 0
@@ -22,7 +25,7 @@ Method SendMessage(pRequest As Ens.StreamContainer, Output pResponse As Ens.Resp
 	If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("OriginalFilename = "_tFilename)
 	Set type = "POST"
 	If (..URL = "") {
-		Set location = "/csp/healthshare/DLA_IN/DLAIN.csp?FILENAME="_tFilename
+		Set location = "/csp/feeder/test.csp?FILENAME="_tFilename
 	} Else {
 		If (..URL = "csp/user/cache_status.cxw") {
 			Set location = ..URL  // /csp/user/cache_status.cxw
@@ -43,8 +46,7 @@ Method SendMessage(pRequest As Ens.StreamContainer, Output pResponse As Ens.Resp
 
 			If (location [ "restapi") {
 				Set tRequest.InitiateAuthentication = "Basic"
-				Set tRequest.Username = "_SYSTEM" ;"ECCMON"
-				//Set tRequest.Password = "SYS" ;"eccmon123!"
+				Set tRequest.Username = "_SYSTEM"
 				Set tRequest.Password = ##class(Feeder.Util).GetPass(..Server_":"_..Port)
 			}
 		} Catch {
