@@ -75,6 +75,7 @@ ClassMethod Init(pFiles As %String = 1) As %Status
 	Set ^UnitTestRoot = ""
 	Do ##class(Feeder.TestProduction).Run()
 	Kill ^myUnitTestControl
+	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - Init is done")
 	Quit $$$OK
 }
 
