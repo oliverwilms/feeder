@@ -10,7 +10,10 @@ Class Feeder.Ensemble
 ///   production item, or if not running then the first matching enabled item that it finds.
 ///   
 /// See method Ens.Director.ParseConfigName() for full syntax of the ConfigItem name specification string.
-ClassMethod EnableConfigItem(pConfigItemName As %String, pEnable As %Boolean = 1, pDoUpdate As %Boolean = 1) As %Status
+ClassMethod EnableConfigItem(
+	pConfigItemName As %String,
+	pEnable As %Boolean = 1,
+	pDoUpdate As %Boolean = 1) As %Status
 {
 	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - EnableConfigItem")
 	Set tSC = ##class(Ens.Director).EnableConfigItem(pConfigItemName, pEnable, pDoUpdate)
@@ -18,7 +21,9 @@ ClassMethod EnableConfigItem(pConfigItemName As %String, pEnable As %Boolean = 1
 	Quit tSC
 }
 
-ClassMethod ExecuteQueryOneValue(pQuery As %String, ByRef pResult As %String) As %Status
+ClassMethod ExecuteQueryOneValue(
+	pQuery As %String,
+	ByRef pResult As %String) As %Status
 {
 	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - ExecuteQueryOneValue")
 	Do ##class(Feeder.Util).DebugTEST("pQuery = "_pQuery)
@@ -79,7 +84,12 @@ ClassMethod GetMacros(Output MacroVars As %String) [ CodeMode = objectgenerator,
 /// 	Log(1,"Text")="Production 'QDENS.HL7.HL7Routing.Production' is up-to-date." <br>
 /// 	Log(1,"TimeLogged")="2006-12-05 17:41:06.421" <br>
 /// 	Log(1,"Type")="Info"
-ClassMethod GetEventLog(type As %String = "all", name As %String = "", baseId As %Integer, ByRef v As %String, Output New As %Integer) As %Status
+ClassMethod GetEventLog(
+	type As %String = "all",
+	name As %String = "",
+	baseId As %Integer,
+	ByRef v As %String,
+	Output New As %Integer) As %Status
 {
 	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - GetEventLog")
 	// First, build cross table for record types: strings to Ensemble constants
@@ -170,7 +180,14 @@ ClassMethod GetEventLog(type As %String = "all", name As %String = "", baseId As
 	Quit $$$OK
 }
 
-ClassMethod GetMessages(type As %String = "all", name As %String = "", baseId As %Integer, ByRef v As %String, Output New As %Integer, Output Begin As %String, Output End As %String) As %Status
+ClassMethod GetMessages(
+	type As %String = "all",
+	name As %String = "",
+	baseId As %Integer,
+	ByRef v As %String,
+	Output New As %Integer,
+	Output Begin As %String,
+	Output End As %String) As %Status
 {
 	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - GetMessages")
 	Set (Begin,End) = ""
@@ -211,7 +228,9 @@ ClassMethod GetMessages(type As %String = "all", name As %String = "", baseId As
 	Quit $$$OK
 }
 
-ClassMethod GetProductionStatus(Output pProductionName As %String, Output pState As %String) As %Status
+ClassMethod GetProductionStatus(
+	Output pProductionName As %String,
+	Output pState As %String) As %Status
 {
 	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - GetProductionStatus")
 	Set tSC = ##class(Ens.Director).GetProductionStatus(.pProductionName, .pState)
@@ -224,14 +243,23 @@ ClassMethod GetProductionStatus(Output pProductionName As %String, Output pState
 	Quit $$$OK
 }
 
-ClassMethod GetSetting(production As %String = "", configName As %String = "", setting As %String = "", Output value As %String) As %Status
+ClassMethod GetSetting(
+	production As %String = "",
+	configName As %String = "",
+	setting As %String = "",
+	Output value As %String) As %Status
 {
 	Kill value
 	Quit ..ChangeOrGetSetting("Get", production, configName, setting, .value)
 }
 
 /// Internal method called by GetSetting and ChangeSetting.
-ClassMethod ChangeOrGetSetting(operation As %String = "Get", production As %String = "", configName As %String = "", setting As %String = "", ByRef value As %String = "") As %Status [ Internal, Private ]
+ClassMethod ChangeOrGetSetting(
+	operation As %String = "Get",
+	production As %String = "",
+	configName As %String = "",
+	setting As %String = "",
+	ByRef value As %String = "") As %Status [ Internal, Private ]
 {
 	Set op = (operation="Change") // 0 = Get, 1 = Change
 	If $c(0)[production Set production = ##class(Ens.Director).GetActiveProductionName()
@@ -308,11 +336,16 @@ ClassMethod ChangeOrGetSetting(operation As %String = "Get", production As %Stri
 }
 
 /// https://community.intersystems.com/post/adding-business-hosts-programmatically-pre-existing-production
-ClassMethod InsertConfigItem(productionName As %Dictionary.CacheClassname, name As %String = "", class As %Dictionary.CacheClassname) As %Status
+ClassMethod InsertConfigItem(
+	productionName As %Dictionary.CacheClassname,
+	name As %String = "",
+	class As %Dictionary.CacheClassname) As %Status
 {
 	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - InsertConfigItem")
-	If $Get(productionName) = "" Set productionName = "Feeder.FeederProduction"
-	If $Get(productionName) = "" Set productionName = ##class(Ens.Director).GetActiveProductionName()
+	If ($Get(productionName) = "") {
+		Set productionName = $Get(^myUnitTestControl("Production"),##class(Ens.Director).GetActiveProductionName())
+		If (productionName = "") Set productionName = "Feeder.FeederProduction"
+	}
 	Do ##class(Feeder.Util).DebugTEST("productionName = "_productionName)
     Set production = ##class(Ens.Config.Production).%OpenId(productionName)
 	Do ##class(Feeder.Util).DebugTEST("production = "_production)
@@ -359,7 +392,9 @@ ClassMethod StartProduction(pProductionName As %String = {$GET(^Ens.Configuratio
 /// This method stops the running production.
 /// pTimeout: How many seconds to wait for the jobs to go down.
 /// pForce:   It indicates if we should forcefully kill the jobs which can not stop by themselves.
-ClassMethod StopProduction(pTimeout As %Numeric = 10, pForce As %Boolean = 0) As %Status
+ClassMethod StopProduction(
+	pTimeout As %Numeric = 10,
+	pForce As %Boolean = 0) As %Status
 {
 	Do ##class(Feeder.Util).DebugTEST("Feeder.Ensemble - StopProduction")
 	Set tSC = ##class(Ens.Director).StopProduction(pTimeout, pForce)
@@ -375,7 +410,7 @@ ClassMethod TEST(FILENAME As %String = "") As %Status
 
 ClassMethod ValidateConfigItem(pName As %String = "") As %Status
 {
-	Set tProdName = ##class(Ens.Director).GetActiveProductionName()
+	Set tProdName = $Get(^myUnitTestControl("Production"),##class(Ens.Director).GetActiveProductionName())
 	Set strWhere = "Name = '"_pName_"' and Production = '"_tProdName_"'"
 	Set strSQL = "select * from Ens_Config.Item where "_strWhere
 	Set tStatement = ##class(%SQL.Statement).%New()
