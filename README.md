@@ -34,21 +34,10 @@ USER>zn "FEEDER"
 FEEDER>write ##class(Feeder.Util).TestMethod()
 ```
 ## Use it
+Configure CSP Operation
+https://github.com/oliverwilms/bilder/blob/main/Capture_Feeder_CSP-Operation_Settings.PNG
 Link to the Feeder Cache Server Page here: http://localhost:52773/csp/feeder/Feeder.csp
 You need to replace localhost with the ip address if the Feeder runs on a remote server.
-
-## File Passthrough Feeder
-IRIS Interoperability Productions formerly known as Ensemble are fun to work with. Yes, I really think my work is fun. I have seen File Passthrough Services and File Passthrough Operations come in handy. At one point we placed test messages in files, then we utilized a File Passthrough Service with Inbound File Adapter to send the contents of the file as a Stream to a File Passthrough Operation with Outbound TCP Adapter. The Operation pointed at a TCP service and sent the test messages.
-
-Later I wanted to troubleshoot another service that received file contents as the body of HTTP requests. I created CSPOperation to send contents of files as HTTP requests to the CSP page that was responsible to receive these messages.
-
-I discovered %UnitTest.TestProduction class that provides a structured way to test Interoperability Productions and organize test results.
-
-When I started working with containers, I used my Feeder Production to send test messages to Application Load Balancer or directly to one container. I added test file creation scripts and generated test files before each Unit Test. I created REST API to query IRIS instances running in containers for messages processed and event log entries. I captured many metrics and created TestReport class to report detailed test results.
-
-I really enjoy putting the File Passthrough Feeder Production to work, as our development environment is not connected to anything to send test messages.
-
-I demonstrated the setup to our greater team. Some were not impressed by the cryptic messages on the terminal from the %UnitTest.TestProduction execution. Hence for the Full Stack Contest I decided to add a CSP page to interact with the Feeder UnitTest Production.
 
 ## What's inside the repository
 
@@ -75,4 +64,5 @@ Settings file to let you immedietly code in VSCode with [VSCode ObjectScript plu
 ### .vscode/launch.json
 Config file if you want to debug with VSCode ObjectScript
 
+## Why is there a Feeder?
 [Article](https://community.intersystems.com/post/file-passthrough-feeder)
