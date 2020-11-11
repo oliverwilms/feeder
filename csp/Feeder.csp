@@ -13,8 +13,23 @@
 <input type="radio" id="LBTest" name="whichTest" value="LBTest">
 <label for="LBTest">Load Balancer Test</label><br>
 </td></tr></table>
-<label for="iFiles">Number of Test Files to generate:</label>
+<table><tr><td>
+<label for="iFiles">Number of Test Files:</label>
+</td><td>
 <input type="text" id="iFiles" name="iFiles"><br>
+</td></tr><tr><td>
+<label for="iCode">Code to run for Test Files:</label>
+</td><td>
+<input type="text" id="iCode" name="iCode"><br>
+</td></tr><tr><td>
+<label for="loadBalancer">Target Server:</label>
+</td><td>
+<input type="text" id="loadBalancer" name="loadBalancer"><br>
+</td></tr><tr><td>
+<label for="cspURL">CSP Operation URL:</label>
+</td><td>
+<input type="text" id="cspURL" name="cspURL"><br>
+</td></tr></table>
 <input type="submit" value="Submit">
 </form>
 <script language="Cache" runat="Server">
@@ -29,7 +44,7 @@ For {
 	If ($Increment(tRow) > 4) { Quit }
 }
 Write "</textarea>","<br>",!
-Write "<a href='http://localhost:52774/csp/sys/exp/UtilExpGlobalView.csp?$ID2=TESTunit&$NAMESPACE=UNITTEST&$NAMESPACE=UNITTEST'>Debug Global</a><br>",!
+Write "<a href='/csp/sys/exp/UtilExpGlobalView.csp?$ID2=TESTunit&$NAMESPACE=",$Namespace,"'>View Debug Global"
 Set tFiles = "1"
 Set tMethod = ""
 If ($Data(%request.Data("whichTest",1))) {
@@ -39,11 +54,28 @@ If ($Data(%request.Data("whichTest",1))) {
 }
 If ($Data(%request.Data("iFiles",1))) {
 	Set tFiles = %request.Data("iFiles",1)
+	If (tFiles = "") Set tFiles = 1
 	Write " - tFiles = ",tFiles
 } Else {
 	Write "<p>",%request.CgiEnvs("HTTP_USER_AGENT"),"</p>"
 	//Write %request.CgiEnvs("REMOTE_ADDR")
 	//Write %request.CgiEnvs("REMOTE_HOST")
+}
+If ($Data(%request.Data("iCode",1))) {
+	Set tCode = %request.Data("iCode",1)
+	Write " - tCode = ",tCode
+} Else {
+	//Write "<p>",%request.CgiEnvs("HTTP_USER_AGENT"),"</p>"
+	//Write %request.CgiEnvs("REMOTE_ADDR")
+	//Write %request.CgiEnvs("REMOTE_HOST")
+}
+If ($Data(%request.Data("loadBalancer",1))) {
+	Set tLB = %request.Data("loadBalancer",1)
+	If (tLB '= "") Set tSC = ##class(Feeder.Util).UpdateLoadBalancer(tLB)
+}
+If ($Data(%request.Data("cspURL",1))) {
+	Set tURL = %request.Data("cspURL",1)
+	If (tURL '= "") Set tSC = ##class(Feeder.Util).UpdateURL(tURL)
 }
 If (tMethod '= "") {
 	Job $CLASSMETHOD("Feeder.UnitTests",tMethod,tFiles)
