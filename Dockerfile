@@ -3,6 +3,8 @@ ARG IMAGE=intersystemsdc/iris-community:2020.1.0.209.0-zpm
 ARG IMAGE=intersystemsdc/iris-community:2020.2.0.204.0-zpm
 ARG IMAGE=intersystemsdc/iris-community:2020.3.0.200.0-zpm
 ARG IMAGE=intersystemsdc/irishealth-community:2020.3.0.200.0-zpm
+ARG IMAGE=intersystems/irishealth:2020.1.0.215.0
+ARG IMAGE=intersystems/irishealth:2020.1.0.215.0.20264
 FROM $IMAGE
 
 USER root
@@ -22,3 +24,9 @@ COPY iris.script /tmp/iris.script
 RUN iris start IRIS \
     && iris session IRIS -U %SYS < /tmp/iris.script \
     && iris stop IRIS quietly
+
+HEALTHCHECK --interval=10s --timeout=3s --retries=2 CMD wget localhost:52773/csp/user/cache_status.cxw || exit 1
+
+USER root
+
+RUN rm /tmp/iris.script
