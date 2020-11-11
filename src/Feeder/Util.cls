@@ -1,7 +1,9 @@
 Class Feeder.Util
 {
 
-ClassMethod DebugMerge(strMessage As %String = "", ByRef pArray) As %Status
+ClassMethod DebugMerge(
+	strMessage As %String = "",
+	ByRef pArray) As %Status
 {
 	Merge ^TESTunit($I(^TESTunit)) = pArray
 	Set tValue = ""
@@ -28,7 +30,11 @@ ClassMethod DebugStatus(pStatus As %Status) As %Status
 	Quit ..DebugTEST(tStatus)
 }
 
-ClassMethod CallRESTapi(pIris As %String, pUrl As %String, ByRef pResponseData As %DynamicObject, pType As %String = "GET") As %Status
+ClassMethod CallRESTapi(
+	pIris As %String,
+	pUrl As %String,
+	ByRef pResponseData As %DynamicObject,
+	pType As %String = "GET") As %Status
 {
 	#define maxRESTapiErr 3
 	#define maxRetries 2
@@ -56,7 +62,7 @@ ClassMethod CallRESTapi(pIris As %String, pUrl As %String, ByRef pResponseData A
 		Try {
 			//Supported schemes are Negotiate, NTLM and Basic.
 			Set tRequest.InitiateAuthentication = "Basic"
-			Set tRequest.Username = "ECCMON"
+			Set tRequest.Username = "_SYSTEM"
 			Set tRequest.Password = ..GetPass(pIris)
 		} Catch {
 		}
@@ -117,7 +123,9 @@ ClassMethod CallRESTapi(pIris As %String, pUrl As %String, ByRef pResponseData A
 	Quit tSC
 }
 
-ClassMethod ExecuteQueryOneValue(pQuery As %String, ByRef pResult As %String) As %Status
+ClassMethod ExecuteQueryOneValue(
+	pQuery As %String,
+	ByRef pResult As %String) As %Status
 {
 	Do ..DebugTEST("Feeder.Util - ExecuteQueryOneValue")
 	Do ..DebugTEST("pQuery = "_pQuery)
@@ -139,7 +147,11 @@ ClassMethod ExecuteQueryOneValue(pQuery As %String, ByRef pResult As %String) As
 /// Get a list of files in the directory configured by FilePath.
 /// The filenames are returned in a %ListOfDataTypes object. Each entry in the list is
 /// a semicolon-separated string containing: Filename;Type;Size;DateCreated;DateModified;FullPathName
-ClassMethod FileSet(Output pFileList As %ListOfDataTypes, pFilePath As %String = "", pWildcards As %String = "*", pIncludeDirs As %Boolean = 0) As %Status
+ClassMethod FileSet(
+	Output pFileList As %ListOfDataTypes,
+	pFilePath As %String = "",
+	pWildcards As %String = "*",
+	pIncludeDirs As %Boolean = 0) As %Status
 {
 	#; ={$Select($$$isVMS:"*.*",1:"*")}
 	Set $ZT="Trap",tSC=$$$OK
@@ -198,7 +210,9 @@ ClassMethod GetContainerArray(ByRef pIRIS) As %Status
 	Quit $$$OK
 }
 
-ClassMethod GetConfigItemArray(ByRef pItem, pFiles As %String = 1) As %Status
+ClassMethod GetConfigItemArray(
+	ByRef pItem,
+	pFiles As %String = 1) As %Status
 {
 	Kill pItem
 	If ($Extract(pFiles,1,2) = "CC") {
@@ -261,7 +275,10 @@ ClassMethod GetBasesOneInstance(pIris As %String) As %Status
 	Quit tSC
 }
 
-ClassMethod GetProductionStates(pServer As %String, pPort As %String, pFiles As %String = 1) As %Status
+ClassMethod GetProductionStates(
+	pServer As %String,
+	pPort As %String,
+	pFiles As %String = 1) As %Status
 {
 	Do ..DebugTEST("Feeder.Util - GetProductionStates")
 	Set target = $Get(pServer)_":"_$Get(pPort)  // This UnitTest will send messages to target
@@ -278,7 +295,10 @@ ClassMethod GetProductionStates(pServer As %String, pPort As %String, pFiles As 
 	Quit $$$OK
 }
 
-ClassMethod GetProdStatusOneInstance(pIris As %String, pAction As %String, pFiles As %String = 1) As %Status
+ClassMethod GetProdStatusOneInstance(
+	pIris As %String,
+	pAction As %String,
+	pFiles As %String = 1) As %Status
 {
 	Do ..DebugTEST("Feeder.Util - GetProdStatusOneInstance - "_$Get(pIris))
 	Set pUrl = "/restapi/ProductionStatus"
@@ -383,7 +403,9 @@ ClassMethod GetProdStopOneInstance(pIris As %String) As %Status
 	Quit tSC
 }
 
-ClassMethod EnableProdItems(pIris As %String, pFiles As %String = 1) As %Status
+ClassMethod EnableProdItems(
+	pIris As %String,
+	pFiles As %String = 1) As %Status
 {
 	Do ..DebugTEST("Feeder.Util - EnableProdItems - "_$Get(pIris))
 	Set tSC = ..GetConfigItemArray(.pItem,pFiles)
@@ -396,7 +418,9 @@ ClassMethod EnableProdItems(pIris As %String, pFiles As %String = 1) As %Status
 	Quit $$$OK
 }
 
-ClassMethod EnableConfigItem(pIris As %String, pConfigItemName As %String) As %Status
+ClassMethod EnableConfigItem(
+	pIris As %String,
+	pConfigItemName As %String) As %Status
 {
 	Do ..DebugTEST("Feeder.Util - EnableConfigItem - "_$Get(pIris)_" - "_$Get(pConfigItemName))
 	Set pUrl = "/restapi/Production/Item/Enable/"_$Get(pConfigItemName)
@@ -436,7 +460,12 @@ ClassMethod EnableConfigItem(pIris As %String, pConfigItemName As %String) As %S
 /// 	Log(1,"Text")="Production 'QDENS.HL7.HL7Routing.Production' is up-to-date." <br>
 /// 	Log(1,"TimeLogged")="2006-12-05 17:41:06.421" <br>
 /// 	Log(1,"Type")="Info"
-ClassMethod GetEventLog(type As %String = "all", name As %String = "", baseId As %Integer, ByRef v As %String, Output New As %Integer) As %Status
+ClassMethod GetEventLog(
+	type As %String = "all",
+	name As %String = "",
+	baseId As %Integer,
+	ByRef v As %String,
+	Output New As %Integer) As %Status
 {
 	Quit $$$OK
 }
@@ -485,7 +514,9 @@ ClassMethod CheckErrors() As %Status
 	Quit $$$OK
 }
 
-ClassMethod CheckErrorsOneInstance(pIris As %String, Output pErrCount As %String) As %Status
+ClassMethod CheckErrorsOneInstance(
+	pIris As %String,
+	Output pErrCount As %String) As %Status
 {
 	Do ..DebugTEST("Feeder.Util - CheckErrorsOneInstance - "_$Get(pIris))
 	Set myUnitTest = $Get(^myUnitTests)
@@ -562,7 +593,10 @@ ClassMethod CheckMessagesOneInstance(pIris As %String) As %Status
 	Quit tSC
 }
 
-ClassMethod CheckMessagesThisInstance(ByRef pMsgCount As %String, ByRef pBegin As %String, ByRef pEnd As %String) As %Status
+ClassMethod CheckMessagesThisInstance(
+	ByRef pMsgCount As %String,
+	ByRef pBegin As %String,
+	ByRef pEnd As %String) As %Status
 {
 	Do ..DebugTEST("Feeder.Util - CheckMessagesThisInstance")
 	Set myUnitTest = $Get(^myUnitTests)
@@ -588,7 +622,10 @@ ClassMethod GetDateTimes() As %Status
 	Quit $$$OK
 }
 
-ClassMethod GetDateTimeOneInstance(pIris As %String, ByRef pDateTime As %String, pDateTimeBase As %String) As %Status
+ClassMethod GetDateTimeOneInstance(
+	pIris As %String,
+	ByRef pDateTime As %String,
+	pDateTimeBase As %String) As %Status
 {
 	Do ..DebugTEST("Feeder.Util - GetDateTimeOneInstance - "_$Get(pIris))
 	Kill pDateTime
@@ -618,7 +655,10 @@ ClassMethod GetDateTimeOneInstance(pIris As %String, ByRef pDateTime As %String,
 	Quit tSC
 }
 
-ClassMethod AddDateTimeDiff(pTS1 As %String, pDiff As %Integer, pTSI As %String = "SQL_TSI_FRAC_SECOND") As %String
+ClassMethod AddDateTimeDiff(
+	pTS1 As %String,
+	pDiff As %Integer,
+	pTSI As %String = "SQL_TSI_FRAC_SECOND") As %String
 {
 	Do ..DebugTEST("Feeder.Util - AddDateTimeDiff - "_$Get(pIris))
 	Do ..DebugTEST("pTS1 = "_$Get(pTS1))
@@ -631,7 +671,11 @@ ClassMethod AddDateTimeDiff(pTS1 As %String, pDiff As %Integer, pTSI As %String 
 	Quit $Get(pResult,"<undefined>")
 }
 
-ClassMethod GetDateTimeDiff(pTS1 As %String, pTS2 As %String, pTSI As %String = "SQL_TSI_FRAC_SECOND", pDEBUG As %Integer = 0) As %String
+ClassMethod GetDateTimeDiff(
+	pTS1 As %String,
+	pTS2 As %String,
+	pTSI As %String = "SQL_TSI_FRAC_SECOND",
+	pDEBUG As %Integer = 0) As %String
 {
 	Do:pDEBUG ..DebugTEST("Feeder.Util - GetDateTimeDiff - "_$Get(pIris))
 	Do:pDEBUG ..DebugTEST("pTS1 = "_$Get(pTS1))
@@ -644,7 +688,10 @@ ClassMethod GetDateTimeDiff(pTS1 As %String, pTS2 As %String, pTSI As %String = 
 	Quit $Get(pResult,"<undefined>")
 }
 
-ClassMethod GetDocumentId(pIris As %String, ByRef pDocumentId As %String, pDEBUG As %Integer = 1) As %Status
+ClassMethod GetDocumentId(
+	pIris As %String,
+	ByRef pDocumentId As %String,
+	pDEBUG As %Integer = 1) As %Status
 {
 	Do:pDEBUG ..DebugTEST("Feeder.Util - GetDocumentId - "_$Get(pIris))
 	Kill pDocumentId
@@ -663,7 +710,9 @@ ClassMethod GetDocumentId(pIris As %String, ByRef pDocumentId As %String, pDEBUG
 	Quit tSC
 }
 
-ClassMethod GetFilesCount(pPath As %String = "", pFiles As %String = "*") As %Integer
+ClassMethod GetFilesCount(
+	pPath As %String = "",
+	pFiles As %String = "*") As %Integer
 {
 	Set tSC = ##class(Feeder.Util).FileSet(.pFileList,pPath,pFiles)
 	Set pCount = pFileList.Size
@@ -671,12 +720,15 @@ ClassMethod GetFilesCount(pPath As %String = "", pFiles As %String = "*") As %In
 	Quit pCount
 }
 
-ClassMethod GetMsgBankCount(pIris As %String, ByRef pMsgBankCount As %String) As %Status
+ClassMethod GetMsgBankCount(
+	pIris As %String,
+	ByRef pMsgBankCount As %String) As %Status
 {
 	//Do ..DebugTEST("Feeder.Util - GetMsgBankCount - "_$Get(pIris))
 	Kill pMsgBankCount
 	Set myNamespace = $Namespace
-	ZNSPACE "ENTERPRISE"
+	Set tNamespaceMsgBank = $Get(^myUnitTestControl("Namespace","MsgBank"),"ENTERPRISE")
+	//ZNSPACE "ENTERPRISE"
 	Set pQuery = "SELECT COUNT(*) FROM Ens_Enterprise_MsgBank.MessageHeader"
 	Set rs = ##class(%ResultSet).%New()
 	Set tSC = rs.Prepare(pQuery)
@@ -693,7 +745,11 @@ ClassMethod GetMsgBankCount(pIris As %String, ByRef pMsgBankCount As %String) As
 	Quit tSC
 }
 
-ClassMethod GetMsgBankReport(pIris As %String, pUnitTest As %String, ByRef pMsgBankCount As %String, pDEBUG As %String = 1) As %Status
+ClassMethod GetMsgBankReport(
+	pIris As %String,
+	pUnitTest As %String,
+	ByRef pMsgBankCount As %String,
+	pDEBUG As %String = 1) As %Status
 {
 	//Do ..DebugTEST("Feeder.Util - GetMsgBankCount - "_$Get(pIris))
 	Kill pMsgBankCount
@@ -711,7 +767,8 @@ ClassMethod GetMsgBankReport(pIris As %String, pUnitTest As %String, ByRef pMsgB
 	}
 	Set objUnitTest = ""
 	Set myNamespace = $Namespace
-	ZNSPACE "ENTERPRISE"
+	Set tNamespaceMsgBank = $Get(^myUnitTestControl("Namespace","MsgBank"),"ENTERPRISE")
+	//ZNSPACE "ENTERPRISE"
 	Set strSELECT = "SELECT TimeCreated,TimeBanked,NodeId,Status,SourceConfigName,TargetConfigName"
 	Set strFROM = " FROM Ens_Enterprise_MsgBank.MessageHeader"
 	Set strWHERE = " WHERE TimeBanked BETWEEN '"_tMyMsgBegin_"' AND '"_tMyMsgEnd_"'"
@@ -765,7 +822,11 @@ ClassMethod GetMsgBankReport(pIris As %String, pUnitTest As %String, ByRef pMsgB
 }
 
 /// Identify "DMLSS Document ID already exists in table with ID:672"
-ClassMethod GetMsgBLogReport(pIris As %String, pUnitTest As %String, ByRef pMsgBankCount As %String, pDEBUG As %String = 1) As %Status
+ClassMethod GetMsgBLogReport(
+	pIris As %String,
+	pUnitTest As %String,
+	ByRef pMsgBankCount As %String,
+	pDEBUG As %String = 1) As %Status
 {
 	//Do ..DebugTEST("Feeder.Util - GetMsgBankCount - "_$Get(pIris))
 	Kill pMsgBankCount,pMsgBLog
@@ -784,7 +845,8 @@ ClassMethod GetMsgBLogReport(pIris As %String, pUnitTest As %String, ByRef pMsgB
 	}
 	Set objUnitTest = ""
 	Set myNamespace = $Namespace
-	ZNSPACE "ENTERPRISE"
+	Set tNamespaceMsgBank = $Get(^myUnitTestControl("Namespace","MsgBank"),"ENTERPRISE")
+	//ZNSPACE "ENTERPRISE"
 	Set strSELECT = "SELECT TimeBanked,NodeId,ConfigName,SourceClass,SourceMethod,Text FROM Ens_Enterprise_MsgBank.Log"
 	Set strORDER = " ORDER BY TimeBanked"
 	Set strWHERE = " WHERE TimeBanked BETWEEN '"_tMyMsgBegin_"' AND '"_tMyMsgEnd_"'"
@@ -834,7 +896,9 @@ ClassMethod TestMethod() As %Status
 	Quit $$$OK
 }
 
-ClassMethod TimeAdjust(pInput As %String = "", pAdjust As %String = "-5h") As %String
+ClassMethod TimeAdjust(
+	pInput As %String = "",
+	pAdjust As %String = "-5h") As %String
 {
 	Set tOutput = pInput
 	If pInput?4N1"-"2N1"-"2N1" "2N1":".E {
@@ -872,7 +936,10 @@ ClassMethod TimeAdjust(pInput As %String = "", pAdjust As %String = "-5h") As %S
 	Quit tOutput
 }
 
-ClassMethod Timeout(pInput As %String = "", pTimeOnly As %String = 1, pAdjust As %String = "-5h") As %String
+ClassMethod Timeout(
+	pInput As %String = "",
+	pTimeOnly As %String = 1,
+	pAdjust As %String = "-5h") As %String
 {
 	Set tOutput = ..TimeAdjust(pInput,pAdjust)
 	If pTimeOnly {
@@ -891,6 +958,20 @@ ClassMethod TranslateServer(pServer As %String = "") As %String
 	Quit tReturnServer
 }
 
+ClassMethod UpdateLoadBalancer(pLoadBalancerURL As %String = "") As %Status
+{
+	Set tSC = $$$OK
+	Set ^myFeeder("Config","LoadBalancer") = pLoadBalancerURL
+	Quit tSC
+}
+
+ClassMethod UpdateURL(pCSPOpURL As %String = "") As %Status
+{
+	Set tSC = $$$OK
+	Set ^myFeeder("Config","CSPOpURL") = pCSPOpURL
+	Quit tSC
+}
+
 ClassMethod whichIRIS(ByRef pIRIS) As %Status
 {
 	Kill pIRIS
@@ -900,14 +981,13 @@ ClassMethod whichIRIS(ByRef pIRIS) As %Status
 
 ClassMethod whichLoadBalancer() As %String
 {
-	Quit "internal-dmlss-ecs-ALB-12345.us-gov-west-1.elb.amazonaws.com"
+	Quit $Get(^myFeeder("Config","LoadBalancer"))
 }
 
 /// For CSPOperation
 ClassMethod whichURL() As %String
 {
-	Quit "/csp/user/cache_status.cxw"
-	//Quit "/restapi/UploadFile/"
+	Quit $Get(^myFeeder("Config","CSPOpURL"),"/csp/user/cache_status.cxw")
 }
 
 }
