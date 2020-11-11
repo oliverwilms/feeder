@@ -29,4 +29,4 @@ HEALTHCHECK --interval=10s --timeout=3s --retries=2 CMD wget localhost:52773/csp
 
 USER root
 
-RUN rm /tmp/iris.script
+RUN rm /tmp/i*
