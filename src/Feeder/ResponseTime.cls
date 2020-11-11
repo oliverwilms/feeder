@@ -13,7 +13,7 @@ Property Server As %String(MAXLEN = 255);
 /// Port for connection.
 Property Port As %String(MAXLEN = 6);
 
-/// URL to connect to (optional). If not specified, it defaults to '/csp/healthshare/DLA_IN/DLAIN.csp?FILENAME='.
+/// URL to connect to (optional). If not specified, it defaults to '/csp/feeder/test.csp?FILENAME='.
 Property URL As %String(MAXLEN = 255);
 
 /// The HTTP status code. This is useful to determine if the request was
@@ -27,7 +27,9 @@ Property ReasonPhrase As %String;
 
 Property myUnitTest As %String;
 
-ClassMethod NewRequest(pRequest As %Net.HttpRequest, pURL As %String) As Feeder.ResponseTime
+ClassMethod NewRequest(
+	pRequest As %Net.HttpRequest,
+	pURL As %String) As Feeder.ResponseTime
 {
 	Set oResponseTime = ..%New()
 	Set oResponseTime.RequestTimestamp = $ZDateTime($NOW(),3,1,3)
