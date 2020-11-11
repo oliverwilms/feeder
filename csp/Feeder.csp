@@ -1,18 +1,18 @@
 <html>
 <head>
-
-<!-- Put your page Title here -->
-<title>	Cache Server Page </title>
-
+<title>Feeder</title>
 </head>
 
 <body>
 <h1>Feeder</h1>
 <form>
-<input type="radio" id="HealthTest" name="whichTest" value="HealthTest">
-<label for="HealthTest">HealthTest</label><br>
+<table><tr><td>
+<input type="radio" id="InitTest" name="whichTest" value="Init">
+<label for="InitTest">Simple Test</label><br>
+</td><td>
 <input type="radio" id="LBTest" name="whichTest" value="LBTest">
 <label for="LBTest">Load Balancer Test</label><br>
+</td></tr></table>
 <label for="iFiles">Number of Test Files to generate:</label>
 <input type="text" id="iFiles" name="iFiles"><br>
 <input type="submit" value="Submit">
