@@ -15,7 +15,7 @@ ClassMethod Setup(pFiles As %String = 1) As %Status
 	Set tCodeClassName = $Get(^myUnitTestControl("TestData","ClassName"),"Feeder.UnitTestHelper")
 	Set tCodeClassMethod = $Get(^myUnitTestControl("TestData","ClassMethod"),"ACopy")
 	Set tSC = $ClassMethod(tCodeClassName,tCodeClassMethod,pFiles)
-	Do ##class(Feeder.Util).DebugTEST("FeederBank.UnitTests - Setup is done")
+	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - Setup is done")
 	Quit tSC
 }
 
