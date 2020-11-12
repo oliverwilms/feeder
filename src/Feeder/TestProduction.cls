@@ -20,7 +20,9 @@ Parameter IGNOREPRODUCTIONERRORS = 1;
 
 // 1 because I want to execute method <method>CheckErrors</method>.
 
-ClassMethod DebugMerge(strMessage As %String = "", ByRef pArray) As %Status
+ClassMethod DebugMerge(
+	strMessage As %String = "",
+	ByRef pArray) As %Status
 {
 	Merge ^TESTunit($I(^TESTunit)) = pArray
 	Set tValue = ""
@@ -89,6 +91,7 @@ Method OnBeforeProductionStart() As %Status
 	Set tSC = ##class(Feeder.Test).UpdateMyProp("","TargetServer",pServer)
 	Set tSC = ##class(Feeder.Test).UpdateMyProp("","TargetPort",pPort)
 	Set tSC = ##class(Feeder.Test).UpdateMyProp("","TargetURL",pURL)
+	/*
 	If ($Extract(pFiles,1,2) = "CC") {
 		Set tSC = ##class(Feeder.UnitTests).CopyCCS()
 		Do $$$AssertStatusOK(tSC,"CopyCCS returned")
@@ -97,6 +100,7 @@ Method OnBeforeProductionStart() As %Status
 	Set tSC = ##class(Feeder.UnitTests).CopyFiles("","",.pFiles)
 	Do ..LogMessage(pFiles_" files")
 	Do $$$AssertStatusOK(tSC,"CopyFiles returned")
+	*/
 	Quit tSC
 }
 
@@ -127,7 +131,9 @@ Method OnAfterProductionStart() As %Status
 /// see method <method>GetEventLog</method>. <br>
 /// Return $$$OK in most cases, or an error status if you want to indicate that there was a failure.  Remember 
 /// that failures are automatic when unit test macros are used.<br>
-Method CheckResults(ByRef Log As %String, New As %String) As %Status
+Method CheckResults(
+	ByRef Log As %String,
+	New As %String) As %Status
 {
 	Do ..DebugTEST("CheckResults")
 	Do ..DebugMerge("Log",.Log)
@@ -258,7 +264,10 @@ Method TestErrorsAfterStop() As %Status
 	Quit tSC
 }
 
-ClassMethod ValidateConfiguration(ByRef pServer As %String, ByRef pPort As %String, ByRef pURL As %String) As %Status
+ClassMethod ValidateConfiguration(
+	ByRef pServer As %String,
+	ByRef pPort As %String,
+	ByRef pURL As %String) As %Status
 {
 	Do ..DebugTEST("ValidateConfiguration")
 	Do ..DebugTEST("pServer = "_$Get(pServer))
