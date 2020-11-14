@@ -35,7 +35,7 @@ FEEDER>write ##class(Feeder.Util).TestMethod()
 ```
 ## Use it
 Configure CSP Operation
-https://github.com/oliverwilms/bilder/blob/main/Capture_Feeder_CSP-Operation_Settings.PNG
+<img width="1411" alt="Screenshot of Production" src="https://github.com/oliverwilms/bilder/blob/main/Capture_Feeder_CSP-Operation_Settings.PNG">
 Link to the Feeder Cache Server Page here: http://localhost:52773/csp/feeder/Feeder.csp
 You need to replace localhost with the ip address if the Feeder runs on a remote server.
 
