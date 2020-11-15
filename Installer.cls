@@ -14,7 +14,10 @@ XData setup
       <Database Name="${Namespace}" Dir="/opt/${app}/data" Create="yes" Resource="%DB_${Namespace}"/>
     </Configuration>
     <Import File="${SourceDir}" Flags="ck" Recurse="1"/>
-    <CSPApplication Url="/csp/${app}" Directory="${cspdir}${app}"  ServeFiles="1" Recurse="1" MatchRoles=":%DB_${Namespace}" AuthenticationMethods="32"/>
+    <If Condition='(##class(Security.Applications).Exists("/csp/feeder")=0)'>
+      <Log Text="Creating web application /csp/feeder" Level="0"/>
+      <RunInstall Class="App.Installer" Method="CreateWebAppFeeder"/>
+    </If>
     <If Condition='(##class(Security.Applications).Exists("/restapi")=0)'>
       <Log Text="Creating web application /restapi" Level="0"/>
       <RunInstall Class="App.Installer" Method="CreateWebAppREST"/>
@@ -22,6 +25,31 @@ XData setup
   </Namespace>
 
 </Manifest>
+}
+
+ClassMethod CreateWebAppFeeder(pVars,pLogLevel,tInstaller) As %Status
+{
+  Set Namespace = tInstaller.Evaluate("${Namespace}")
+  Do tInstaller.PushNS("%SYS")
+  Do ##class(Security.System).GetInstallationSecuritySetting(.security)
+  If (security="None") {
+    Set cspProperties("AutheEnabled") = $$$AutheUnauthenticated
+  } Else {
+    Set cspProperties("AutheEnabled") = $$$AutheCache // Password
+  }
+  Set cspName = "/csp/feeder"
+  Set cspProperties("NameSpace") = $Get(Namespace,"FEEDER")
+  Set cspProperties("Enabled") = 1
+  Set cspProperties("AutheEnabled") = $$$AutheUnauthenticated
+  Set cspProperties("DeepSeeEnabled") = 1
+  Set cspProperties("iKnowEnabled") = 0
+  Set cspProperties("Path") = "/voldata/csp/feeder"
+  Set cspProperties("Resource") = ""
+  Set cspProperties("ServeFiles") = 1
+  Set tSC = ##class(Security.Applications).Create(cspName,.cspProperties)
+  Do tInstaller.PopNS()
+  If $$$ISERR(tSC) Throw ##class(%Installer.Exception).CreateFromStatus(tSC)
+  Quit $$$OK
 }
 
 ClassMethod CreateWebAppREST(pVars,pLogLevel,tInstaller) As %Status
