@@ -12,7 +12,9 @@ XData setup
       <Database Name="${Namespace}" Dir="/voldata/irisdb/feeder" Create="yes" Resource="%DB_${Namespace}"/>
     </Configuration>
     <Import File="${SourceDir}" Flags="ck" Recurse="1"/>
-    <If Condition='(##class(Security.Applications).Exists("/feederapp")=0)'>
+  </Namespace>
+  
+  <If Condition='(##class(Security.Applications).Exists("/feederapp")=0)'>
       <Log Text="Creating web application /feederapp" Level="0"/>
       <RunInstall Class="App.Installer" Method="CreateWebAppFeederapp"/>
     </If>
@@ -20,8 +22,6 @@ XData setup
       <Log Text="Creating web application /restapi" Level="0"/>
       <RunInstall Class="App.Installer" Method="CreateWebAppREST"/>
     </If>
-  </Namespace>
-
 </Manifest>
 }
 
