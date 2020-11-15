@@ -6,17 +6,15 @@ XData setup
 <Manifest>
   <Default Name="SourceDir" Value="/opt/feeder/src"/>
   <Default Name="Namespace" Value="FEEDER"/>
-  <Default Name="app" Value="feeder" />
 
   <Namespace Name="${Namespace}" Code="${Namespace}" Data="${Namespace}" Create="yes" Ensemble="1">
-
     <Configuration>
-      <Database Name="${Namespace}" Dir="/voldata/irisdb/${app}" Create="yes" Resource="%DB_${Namespace}"/>
+      <Database Name="${Namespace}" Dir="/voldata/irisdb/feeder" Create="yes" Resource="%DB_${Namespace}"/>
     </Configuration>
     <Import File="${SourceDir}" Flags="ck" Recurse="1"/>
-    <If Condition='(##class(Security.Applications).Exists("/csp/feeder")=0)'>
-      <Log Text="Creating web application /csp/feeder" Level="0"/>
-      <RunInstall Class="App.Installer" Method="CreateWebAppFeeder"/>
+    <If Condition='(##class(Security.Applications).Exists("/feederapp")=0)'>
+      <Log Text="Creating web application /feederapp" Level="0"/>
+      <RunInstall Class="App.Installer" Method="CreateWebAppFeederapp"/>
     </If>
     <If Condition='(##class(Security.Applications).Exists("/restapi")=0)'>
       <Log Text="Creating web application /restapi" Level="0"/>
@@ -27,7 +25,7 @@ XData setup
 </Manifest>
 }
 
-ClassMethod CreateWebAppFeeder(pVars,pLogLevel,tInstaller) As %Status
+ClassMethod CreateWebAppFeederapp(pVars,pLogLevel,tInstaller) As %Status
 {
   Set Namespace = tInstaller.Evaluate("${Namespace}")
   Do tInstaller.PushNS("%SYS")
@@ -37,13 +35,13 @@ ClassMethod CreateWebAppFeeder(pVars,pLogLevel,tInstaller) As %Status
   } Else {
     Set cspProperties("AutheEnabled") = $$$AutheCache // Password
   }
-  Set cspName = "/csp/feeder"
+  Set cspName = "/feederapp"
   Set cspProperties("NameSpace") = $Get(Namespace,"FEEDER")
   Set cspProperties("Enabled") = 1
   Set cspProperties("AutheEnabled") = $$$AutheUnauthenticated
   Set cspProperties("DeepSeeEnabled") = 1
   Set cspProperties("iKnowEnabled") = 0
-  Set cspProperties("Path") = "/voldata/iconfig/csp/feeder"
+  Set cspProperties("Path") = "/voldata/iconfig/csp/feederapp"
   Set cspProperties("Resource") = ""
   Set cspProperties("ServeFiles") = 1
   Set tSC = ##class(Security.Applications).Create(cspName,.cspProperties)
