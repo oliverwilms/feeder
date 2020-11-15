@@ -14,5 +14,4 @@ services:
     environment:
       - ISC_DATA_DIRECTORY=/voldata/iconfig
     volumes:
-      - ~/iris.key:/usr/irissys/mgr/iris.key
       - ./:/voldata
