@@ -27,5 +27,5 @@ RUN iris start IRIS \
 HEALTHCHECK --interval=10s --timeout=3s --retries=2 CMD wget localhost:52773/csp/user/cache_status.cxw || exit 1
 
 USER root
-
+COPY csp /voldata/csp/feeder
 RUN rm /tmp/i*
