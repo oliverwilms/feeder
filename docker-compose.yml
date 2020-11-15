@@ -4,7 +4,7 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    command: "-b /opt/messagebank/vcopy.sh"
+    command: "-b /opt/feeder/vcopy.sh"
     init: true
     restart: always
     ports: 
