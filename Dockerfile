@@ -9,13 +9,13 @@ FROM $IMAGE
 USER root
 
 WORKDIR /opt/feeder
-RUN mkdir /ghostdb/ && mkdir /voldata/ && mkdir /voldata/irisdb/ && mkdir /voldata/csp/ && mkdir /voldata/csp/feeder/
-RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder /ghostdb/ /voldata/ /voldata/irisdb/ /voldata/csp/ /voldata/csp/feeder/
+RUN mkdir /ghostdb/ && mkdir /voldata/ && mkdir /voldata/iconfig/ && mkdir /voldata/irisdb/ && mkdir /voldata/iconfig/csp/ && mkdir /voldata/iconfig/csp/feeder/
+RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder /ghostdb/ /voldata/ /voldata/iconfig/ /voldata/irisdb/ /voldata/iconfig/csp/ /voldata/iconfig/csp/feeder/
 
 USER irisowner
 
 COPY Installer.cls .
-COPY csp /voldata/csp/feeder
+COPY csp /voldata/iconfig/csp/feeder
 COPY src src
 COPY iris.script /tmp/iris.script
 
