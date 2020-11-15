@@ -7,10 +7,11 @@ ARG IMAGE=intersystems/irishealth:2020.1.0.215.0
 FROM $IMAGE
 
 USER root
-
+COPY iris.key $ISC_PACKAGE_INSTALLDIR/mgr/
 WORKDIR /opt/feeder
 RUN mkdir /ghostdb/ && mkdir /voldata/ && mkdir /voldata/iconfig/ && mkdir /voldata/irisdb/ && mkdir /voldata/iconfig/csp/ && mkdir /voldata/iconfig/csp/feederapp/
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder /ghostdb/ /voldata/ /voldata/iconfig/ /voldata/irisdb/ /voldata/iconfig/csp/ /voldata/iconfig/csp/feederapp/
+RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /usr/irissys/mgr/iris.key
 
 USER irisowner
 
