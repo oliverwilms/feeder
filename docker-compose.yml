@@ -4,7 +4,6 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-      no-cache: true
     command: "-b /opt/feeder/vcopy.sh"
     init: true
     restart: always
