@@ -9,14 +9,14 @@ FROM $IMAGE
 USER root
 
 WORKDIR /opt/feeder
-RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder
-COPY csp /usr/irissys/csp/feeder
-RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /usr/irissys/csp/feeder
+RUN mkdir /ghostdb/ && mkdir /voldata/ && mkdir /voldata/irisdb/ && mkdir /voldata/csp/ && mkdir /voldata/csp/feeder/
+RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder /ghostdb/ /voldata/ /voldata/irisdb/ /voldata/csp/ /voldata/csp/feeder/
 
 USER irisowner
 
-COPY  Installer.cls .
-COPY  src src
+COPY Installer.cls .
+COPY csp /voldata/csp/feeder
+COPY src src
 COPY iris.script /tmp/iris.script
 
 # run iris and initial 
@@ -27,5 +27,4 @@ RUN iris start IRIS \
 HEALTHCHECK --interval=10s --timeout=3s --retries=2 CMD wget localhost:52773/csp/user/cache_status.cxw || exit 1
 
 USER root
-COPY csp /voldata/csp/feeder
 RUN rm /tmp/i*
