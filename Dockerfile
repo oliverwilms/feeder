@@ -8,12 +8,12 @@ FROM $IMAGE
 
 USER root
 COPY iris.key $ISC_PACKAGE_INSTALLDIR/mgr/
+RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /usr/irissys/mgr/iris.key
 WORKDIR /opt/feeder
 RUN mkdir /ghostdb/ && mkdir /voldata/ && mkdir /voldata/iconfig/ && mkdir /voldata/irisdb/ && mkdir /voldata/iconfig/csp/ && mkdir /voldata/iconfig/csp/feederapp/
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder /ghostdb/ /voldata/ /voldata/iconfig/ /voldata/irisdb/ /voldata/iconfig/csp/ /voldata/iconfig/csp/feederapp/
-RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /usr/irissys/mgr/iris.key
 
-USER irisowner
+USER ${ISC_PACKAGE_MGRUSER}
 
 COPY Installer.cls .
 COPY csp /voldata/iconfig/csp/feederapp
@@ -31,4 +31,3 @@ USER root
 COPY vcopy.sh vcopy.sh
 RUN rm -f $ISC_PACKAGE_INSTALLDIR/mgr/alerts.log $ISC_PACKAGE_INSTALLDIR/mgr/IRIS.WIJ $ISC_PACKAGE_INSTALLDIR/mgr/journal/* && cp -Rpf /voldata/* /ghostdb/ && rm -fr /voldata/* \
   && chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder/vcopy.sh && chmod +x /opt/feeder/vcopy.sh
-RUN rm /tmp/i*
