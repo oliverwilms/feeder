@@ -10,7 +10,7 @@ services:
     ports: 
       - 1972
       - 52773
-      - 53773
+      - 51773
     environment:
       - ISC_DATA_DIRECTORY=/voldata/iconfig
     volumes:
