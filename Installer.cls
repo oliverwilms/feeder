@@ -38,7 +38,7 @@ ClassMethod CreateWebAppFeederapp(pVars,pLogLevel,tInstaller) As %Status
   Set cspName = "/feederapp"
   Set cspProperties("NameSpace") = $Get(Namespace,"FEEDER")
   Set cspProperties("Enabled") = 1
-  Set cspProperties("AutheEnabled") = $$$AutheUnauthenticated
+  Set cspProperties("AutheEnabled") = $$$AutheUnauthenticated + $$$AutheCache
   Set cspProperties("DeepSeeEnabled") = 1
   Set cspProperties("iKnowEnabled") = 0
   Set cspProperties("Path") = "/voldata/icsp/feederapp"
