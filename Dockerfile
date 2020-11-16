@@ -13,6 +13,7 @@ WORKDIR /opt/feeder
 RUN mkdir /ghostdb/ && mkdir /voldata/ && mkdir /voldata/irisdb/ && mkdir /voldata/icsp/ && mkdir /voldata/icsp/feederapp/
 COPY csp /voldata/icsp/feederapp
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder /ghostdb/ /voldata/ /voldata/irisdb/ /voldata/icsp/ /voldata/icsp/feederapp/ /voldata/icsp/feederapp/Feeder.csp
+RUN chmod 775 /voldata/icsp/feederapp/ /voldata/icsp/feederapp/Feeder.csp
 
 USER ${ISC_PACKAGE_MGRUSER}
 COPY Installer.cls .
