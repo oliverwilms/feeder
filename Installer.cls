@@ -41,7 +41,7 @@ ClassMethod CreateWebAppFeederapp(pVars,pLogLevel,tInstaller) As %Status
   Set cspProperties("AutheEnabled") = $$$AutheUnauthenticated
   Set cspProperties("DeepSeeEnabled") = 1
   Set cspProperties("iKnowEnabled") = 0
-  Set cspProperties("Path") = "/voldata/iconfig/csp/feederapp"
+  Set cspProperties("Path") = "/voldata/icsp/feederapp"
   Set cspProperties("Resource") = ""
   Set cspProperties("ServeFiles") = 1
   Set tSC = ##class(Security.Applications).Create(cspName,.cspProperties)
