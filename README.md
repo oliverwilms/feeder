@@ -57,3 +57,6 @@ Use .env/ file to adjust the dockerfile being used in docker-compose.
 
 ## Why is there a Feeder?
 [Article](https://community.intersystems.com/post/file-passthrough-feeder)
+
+## Why are there new File Adapters in Feeder 2.0?
+Explanation coming soon
