@@ -35,8 +35,12 @@ Open IRIS terminal:
 
 ```
 $ docker-compose exec iris iris session iris
+If you are prompted to login, use "_SYSTEM" for username and the default password is "SYS".
 USER>zn "FEEDER"
 FEEDER>write ##class(Feeder.Util).TestMethod()
+You should see the following output:
+Your Feeder is ready.
+1
 ```
 ## Use it
 Configure CSP Operation
