@@ -3,21 +3,22 @@
   <Document name="feeder.ZPM">
     <Module>
       <Name>feeder</Name>
-      <Version>1.0.1</Version>
+      <Version>2.0.1</Version>
       <Description>Feeder Production that generates test files and sends test messages to Interoperability Production</Description>
       <Packaging>module</Packaging>
       <Description>Feeder Production that generates test files and sends test messages to Interoperability Production</Description>
       <SourcesRoot>src</SourcesRoot>
       <Resource Name="Feeder.PKG"/>
+      <Resource Name="FileControl.PKG"/>
       <CSPApplication
-        Url="/csp/feeder"
+        Url="/feederapp"
         PasswordAuthEnabled="1"
         UnauthenticatedEnabled="0"
         SourcePath="/csp"
-        DeployPath="{$cspdir}/feeder"
+        DeployPath="{$cspdir}/feederapp"
         ServeFiles="1"
         Recurse="1"
-        CookiePath="/csp/feeder"
+        CookiePath="/feederapp"
        />
     </Module>
   </Document>
