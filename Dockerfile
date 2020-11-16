@@ -10,13 +10,13 @@ USER root
 COPY iris.key $ISC_PACKAGE_INSTALLDIR/mgr/
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /usr/irissys/mgr/iris.key
 WORKDIR /opt/feeder
-RUN mkdir /ghostdb/ && mkdir /voldata/ && mkdir /voldata/iconfig/ && mkdir /voldata/irisdb/ && mkdir /voldata/iconfig/csp/ && mkdir /voldata/iconfig/csp/feederapp/
-RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder /ghostdb/ /voldata/ /voldata/iconfig/ /voldata/irisdb/ /voldata/iconfig/csp/ /voldata/iconfig/csp/feederapp/
+RUN mkdir /ghostdb/ && mkdir /voldata/ && mkdir /voldata/irisdb/ && mkdir /voldata/icsp/ && mkdir /voldata/icsp/feederapp/
+RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/feeder /ghostdb/ /voldata/ /voldata/irisdb/ /voldata/icsp/ /voldata/icsp/feederapp/
 
 USER ${ISC_PACKAGE_MGRUSER}
 
 COPY Installer.cls .
-COPY csp /voldata/iconfig/csp/feederapp
+COPY csp /voldata/icsp/feederapp
 COPY src src
 COPY iris.script /tmp/iris.script
 
