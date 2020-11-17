@@ -29,6 +29,9 @@ XData ProductionDefinition
     <Setting Target="Host" Name="URL">/csp/user/cache_status.cxw</Setting>
   </Item>
   <Item Name="File Passthrough Service" Category="" ClassName="EnsLib.File.PassthroughService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="TargetConfigNames">BusinessProcessBPL</Setting>
+  </Item>
+  <Item Name="BusinessProcessBPL" Category="" ClassName="Feeder.Process" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
 </Production>
 }
