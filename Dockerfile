@@ -3,12 +3,9 @@ ARG IMAGE=intersystemsdc/iris-community:2020.1.0.209.0-zpm
 ARG IMAGE=intersystemsdc/iris-community:2020.2.0.204.0-zpm
 ARG IMAGE=intersystemsdc/iris-community:2020.3.0.200.0-zpm
 ARG IMAGE=intersystemsdc/irishealth-community:2020.3.0.200.0-zpm
-ARG IMAGE=intersystems/irishealth:2020.1.0.215.0
 FROM $IMAGE
 
 USER root
-COPY iris.key $ISC_PACKAGE_INSTALLDIR/mgr/
-RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /usr/irissys/mgr/iris.key
 WORKDIR /opt/feeder
 RUN mkdir /ghostdb/ && mkdir /voldata/ && mkdir /voldata/irisdb/ && mkdir /voldata/icsp/ && mkdir /voldata/icsp/feederapp/
 COPY csp /voldata/icsp/feederapp
