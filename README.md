@@ -2,7 +2,7 @@
 This solution contains an InterSystems IRIS Interoerability Production for sending test messages.
 
 ## Enhanced for Interoperability Contest
-We can specify code to use to generate test files from Feeder Cache Server Page. The production has new BusinessProcessBPL process to automatically import CSV files using [csvgen](https://openexchange.intersystems.com/package/csvgen).
+The production has new BusinessProcessBPL process to automatically import CSV files using [csvgen](https://openexchange.intersystems.com/package/csvgen).
 <img width="1411" alt="Screenshot of BusinessProcessBPL" src="https://user-images.githubusercontent.com/50807396/99479975-d1c36a00-291c-11eb-8c3e-728c20c02caa.png">
 
 ## Extra: File Adapters to allow multiple IRIS instances to process files in shared directories.
@@ -44,10 +44,10 @@ Your Feeder is ready.
 1
 ```
 ## Use it
-Configure CSP Operation
-<img width="1411" alt="Screenshot of Production" src="https://user-images.githubusercontent.com/50807396/99205087-1f08d580-277d-11eb-993a-aeda6154accf.PNG">
+<img width="1411" alt="Screenshot of Production" src=" https://user-images.githubusercontent.com/50807396/99479986-d5ef8780-291c-11eb-9075-7fa24bf3aa8c.png">
 Link to the Feeder Cache Server Page here: http://localhost:52773/feederapp/Feeder.csp
 You need to replace localhost with the ip address if the Feeder runs on a remote server. Change the port number if you use a different port.
+We can specify code to use to generate test files from Feeder Cache Server Page. 
 <img width="1411" alt="Screenshot of Production" src="https://user-images.githubusercontent.com/50807396/99205069-144e4080-277d-11eb-9716-be7de5198706.PNG">
 
 
