@@ -2,7 +2,7 @@
 This solution contains an InterSystems IRIS Interoerability Production for sending test messages.
 
 ## Enhanced for Interoperability Contest
-Specify code to use to generate test files from Feeder Cache Server Page
+We can specify code to use to generate test files from Feeder Cache Server Page. The production has new BusinessProcessBPL process to automatically import CSV files using [csvgen](https://openexchange.intersystems.com/package/csvgen)
 
 ## Extra: File Adapters to allow multiple IRIS instances to process files in shared directories.
 
