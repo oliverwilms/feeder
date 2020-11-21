@@ -64,6 +64,10 @@ Dockerfile defines the InterSystems IRIS image to use, starts IRIS, imports Inst
 Use the related docker-compose.yml to easily setup additional parameters like port number and where you map keys and host folders.
 You may use .env/ file to adjust the dockerfile being used in docker-compose.
 
+### Feeder.UnitTests.cls
+
+You can execute the following Tests from Terminal (IRIS session):
+
 
 ## Why is there a Feeder?
 [Article](https://community.intersystems.com/post/file-passthrough-feeder)
