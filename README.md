@@ -8,7 +8,8 @@ The production has new BusinessProcessBPL process to automatically import CSV fi
 ## Extra: File Adapters to allow multiple IRIS instances to process files in shared directories.
 [Article](https://community.intersystems.com/post/file-access-control-inbound-adapter-running-multiple-iris-instances)
 ## How I use the Feeder
-I want to describe how I use Feeder at work: I update the Dockerfile to use a non-Community Edition IRIS image. I copy iris.key into current directory and I add "--key /voldata/iris.key" to the command in docker-compose.yml with --key to activate my license key. I update iris.script because I do not have ZPM and I do not need csvgen. (I just added it to get a bonus point for BPL usage.)
+I want to describe how I use Feeder at work: I update the Dockerfile to use a non-Community Edition IRIS image. I copy iris.key into current directory and add "--key /voldata/iris.key" to the command in docker-compose.yml to activate my license key. I update iris.script because I do not have ZPM and I do not need csvgen. (I just added it to get a bonus point for BPL usage.)
+
 I will continue to describe my usage of Feeder as time allows...
 
 ## Prerequisites
