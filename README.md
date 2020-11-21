@@ -57,6 +57,8 @@ You can control the Feeder from the command line or from the Feeder Cache Server
 You need to replace localhost with the ip address if the Feeder runs on a remote server. Change the port number if you use a different port.
 We can specify code to use to generate test files from Feeder Cache Server Page. 
 <img width="1411" alt="Capture_Feeder_CSP" src="https://user-images.githubusercontent.com/50807396/99889597-56afcb80-2c1c-11eb-9420-90b70cfbbb74.PNG">
+After the data is submitted on CSP page, it is saved in ^myFeeder global pictured below:
+<img width="1411" alt="Capture_myFeeder_Global" src="https://user-images.githubusercontent.com/50807396/99889821-5ca6ac00-2c1e-11eb-80d5-b294a98b75b5.PNG">
 
 ## What's inside the repository
 
