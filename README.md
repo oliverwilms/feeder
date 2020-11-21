@@ -60,9 +60,9 @@ We can specify code to use to generate test files from Feeder Cache Server Page.
 
 ### Dockerfile
 
-The simplest dockerfile which starts IRIS and imports Installer.cls and then runs the Installer.setup method, which creates IRISAPP Namespace and imports ObjectScript code from /src folder into it.
+Dockerfile defines the InterSystems IRIS image to use, starts IRIS, imports Installer.cls, and runs the Installer.setup method, which creates FEEDER Namespace and imports ObjectScript code from /src folder into it.
 Use the related docker-compose.yml to easily setup additional parameters like port number and where you map keys and host folders.
-Use .env/ file to adjust the dockerfile being used in docker-compose.
+You may use .env/ file to adjust the dockerfile being used in docker-compose.
 
 
 ## Why is there a Feeder?
