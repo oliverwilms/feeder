@@ -16,19 +16,19 @@
 <table><tr><td>
 <label for="iFiles">Number of Test Files:</label>
 </td><td>
-<input type="text" id="iFiles" name="iFiles"><br>
+<input type="text" id="iFiles" name="iFiles" value="#(%request.Data("iFiles",1))#"><br>
 </td></tr><tr><td>
 <label for="iCode">Code to run for Test Files:</label>
 </td><td>
-<input type="text" id="iCode" name="iCode"><br>
+<input type="text" id="iCode" name="iCode" value="#(%request.Data("iCode",1))#"><br>
 </td></tr><tr><td>
 <label for="loadBalancer">Target Server:</label>
 </td><td>
-<input type="text" id="loadBalancer" name="loadBalancer"><br>
+<input type="text" id="loadBalancer" name="loadBalancer" value="#(%request.Data("loadBalancer",1))#"><br>
 </td></tr><tr><td>
 <label for="cspURL">CSP Operation URL:</label>
 </td><td>
-<input type="text" id="cspURL" name="cspURL"><br>
+<input type="text" id="cspURL" name="cspURL" value="#(%request.Data("cspURL",1))#"><br>
 </td></tr></table>
 <input type="submit" value="Submit">
 </form>
