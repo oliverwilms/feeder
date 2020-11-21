@@ -1,6 +1,9 @@
 ## Feeder
 This solution contains an InterSystems IRIS Interoerability Production for sending test messages.
 
+## Why is there a Feeder?
+[Article](https://community.intersystems.com/post/file-passthrough-feeder)
+
 ## Enhanced for Interoperability Contest
 The production has new BusinessProcessBPL process to automatically import CSV files using [csvgen](https://openexchange.intersystems.com/package/csvgen).
 <img width="1411" alt="Screenshot of BusinessProcessBPL" src="https://user-images.githubusercontent.com/50807396/99479975-d1c36a00-291c-11eb-8c3e-728c20c02caa.png">
@@ -78,10 +81,3 @@ You should see the following output:
 Your Feeder is ready.
 1
 ```
-
-## Why is there a Feeder?
-[Article](https://community.intersystems.com/post/file-passthrough-feeder)
-
-## Why are there new File Adapters in Feeder 2.0?
-[Article](https://community.intersystems.com/post/file-access-control-inbound-adapter-running-multiple-iris-instances)
-
