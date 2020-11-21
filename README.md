@@ -53,7 +53,7 @@ Your Feeder is ready.
 ```
 ## Use it
 <img width="1411" alt="Screenshot of Production" src="https://user-images.githubusercontent.com/50807396/99479986-d5ef8780-291c-11eb-9075-7fa24bf3aa8c.png">
-You can use the Feeder from the command line or control it from the Feeder Cache Server Page here: http://localhost:52773/feederapp/Feeder.csp
+You can control the Feeder from the command line or from the Feeder Cache Server Page here: http://localhost:52773/feederapp/Feeder.csp
 You need to replace localhost with the ip address if the Feeder runs on a remote server. Change the port number if you use a different port.
 We can specify code to use to generate test files from Feeder Cache Server Page. 
 <img width="1411" alt="Capture_Feeder_CSP" src="https://user-images.githubusercontent.com/50807396/99889597-56afcb80-2c1c-11eb-9420-90b70cfbbb74.PNG">
