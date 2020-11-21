@@ -6,6 +6,9 @@ The production has new BusinessProcessBPL process to automatically import CSV fi
 <img width="1411" alt="Screenshot of BusinessProcessBPL" src="https://user-images.githubusercontent.com/50807396/99479975-d1c36a00-291c-11eb-8c3e-728c20c02caa.png">
 
 ## Extra: File Adapters to allow multiple IRIS instances to process files in shared directories.
+[Article](https://community.intersystems.com/post/file-access-control-inbound-adapter-running-multiple-iris-instances)
+## How I use the Feeder
+I update the Dockerfile to use a non-Community Edition IRIS image. I copy iris.key into current directory and I add "--key /voldata/iris.key" to the command in docker-compose.yml with --key to activate my license key. I update iris.script because I do not have ZPM and I do not need csvgen. (I just added it to get a bonus point for BPL usage.)
 
 ## Prerequisites
 Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.
