@@ -82,3 +82,7 @@ FEEDER>write ##class(Feeder.UnitTests).LBTest()
 You will see output
 
 ```
+### Feeder.UnitTestHelper.cls
+When I send test messages through FeederProduction's CSP Operation via HTTP requests to the Interoperabilty Production I use the Feeder with it places files in three directories to be sent to downstream systems which are not connected yet. There is a classmethod FilesMonitor which can be jobbed as a background job - JOB ##class(Feeder.UnitTestHelper).FilesMonitor() - and it updates a global with the count of files it finds in the watched directories once a minute. This provides a way to see how many files are processed per minute from a Global Viewer as pictured below:
+
+I created Feeder UnitTests class to Run Feeder.TestProduction, which extends %UnitTest.TestProduction, which tests a Production using the following steps. It starts the production (Fee
