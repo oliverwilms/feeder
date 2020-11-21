@@ -3,7 +3,7 @@
   <Document name="feeder.ZPM">
     <Module>
       <Name>feeder</Name>
-      <Version>2.0.4</Version>
+      <Version>2.0.5</Version>
       <Description>Feeder Production that generates test files and sends test messages to Interoperability Production</Description>
       <Packaging>module</Packaging>
       <Dependencies>
