@@ -68,9 +68,10 @@ Use the related docker-compose.yml to easily setup additional parameters like po
 You may use .env/ file to adjust the dockerfile being used in docker-compose.
 
 ### Feeder.UnitTests.cls
+I created Feeder UnitTests class to Run Feeder.TestProduction, which extends %UnitTest.TestProduction, which tests a Production using the following steps. It starts the production (Feeder.FeederProduction), waits a certain time, stops the production, and checks results. I am not really interested in testing FeederProduction, instead I use it to send test messages to another production and then check the results of test messages processed in the target production. This is especially handy if the target production runs in multiple containers and it would be cumbersome to check each instance for messages, event logs, etc. 
 
 You can execute the following Tests from Terminal (IRIS session):
-Open IRIS terminal:
+
 
 ```
 $ docker-compose exec iris iris session iris
