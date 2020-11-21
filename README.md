@@ -72,7 +72,7 @@ I created Feeder UnitTests class to Run Feeder.TestProduction, which extends %Un
 
 I mainly use two methods, HealthTest and LBTest. HealthTest is intended to be used for checking the health of known IRIS instances by sending messages directly to an instance. LBTest is intended to be used for testing a deployment by sending messages to a load balancer which distributes messages for processing. HealthTest depends on IRIS instances being defined, which I hardcoded in Feeder.Util class (GetContainerArray). I like to some day enhance Feeder.csp to allow configuration of IRIS instances similar to how Enterprise Systems get configured in Management Portal.
 
-Let's take a look at LBTest classmethod. It calls common Setup method, sets ^myUnitTestControl with values pointing to the Load Balancer, runs Feeder.TestProduction, and kills ^myUnitTestControl. You can configure Feeder to use any URL, it does not need to be a Load Balancer.
+Let's take a look at LBTest classmethod. It calls common Setup method, sets ^myUnitTestControl with values pointing to the Load Balancer, runs Feeder.TestProduction, and kills ^myUnitTestControl. Setup method controls what code gets executed to generate test messages and how many messages it should generate. You can configure Feeder to use any URL, it does not need to be a Load Balancer.
 
 ```
 $ docker-compose exec iris iris session iris
