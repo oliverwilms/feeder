@@ -919,6 +919,14 @@ ClassMethod UpdateLoadBalancer(pLoadBalancerURL As %String = "") As %Status
 }
 
 /// Called from Feeder.csp - Save what was submitted
+ClassMethod UpdatePort(pPort As %String = "") As %Status
+{
+	Set tSC = $$$OK
+	Set ^myFeeder("Config","Port") = pPort
+	Quit tSC
+}
+
+/// Called from Feeder.csp - Save what was submitted
 ClassMethod UpdateURL(pCSPOpURL As %String = "") As %Status
 {
 	Set tSC = $$$OK
