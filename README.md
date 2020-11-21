@@ -13,7 +13,7 @@ The production has new BusinessProcessBPL process to automatically import CSV fi
 ## How I use the Feeder
 I want to describe how I use Feeder at work: I update the Dockerfile to use a non-Community Edition IRIS image. I copy iris.key into current directory and add "--key /voldata/iris.key" to the command in docker-compose.yml to activate my license key. I update iris.script because I do not have ZPM and I do not need csvgen. (I just added it to get a bonus point for BPL usage.)
 
-I will continue to describe my usage of Feeder as time allows...
+The application I use the Feeder to send test messages to accepts HTTP requests and some files are received via FTP. I started the Feeder with a CSP Operation that simulates the HTTP requests. Later on I added a way to copy files to specific file path that simulates the files received via FTP. My target InterSystems Operability Production has various File Services to process the files. I will continue to describe my usage of Feeder as time allows...
 
 ## Prerequisites
 Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.
