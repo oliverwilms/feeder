@@ -83,6 +83,7 @@ You will see output
 
 ```
 ### Feeder.UnitTestHelper.cls
-When I send test messages through FeederProduction's CSP Operation via HTTP requests to the Interoperabilty Production I use the Feeder with it places files in three directories to be sent to downstream systems which are not connected yet. There is a classmethod FilesMonitor which can be jobbed as a background job - JOB ##class(Feeder.UnitTestHelper).FilesMonitor() - and it updates a global with the count of files it finds in the watched directories once a minute. This provides a way to see how many files are processed per minute from a Global Viewer as pictured below:
+When I send test messages through FeederProduction's CSP Operation via HTTP requests to the targeted Interoperabilty Production, it places files in three directories to be sent to downstream systems which are not connected yet. There is a classmethod FilesMonitor which can be jobbed as a background job - JOB ##class(Feeder.UnitTestHelper).FilesMonitor() - and it updates a global with the count of files it finds in the watched directories once a minute. This provides a way to see how many files are processed per minute from a Global Viewer as pictured below:
 <img width="1411" alt="View Global Data" src="https://user-images.githubusercontent.com/50807396/99887849-78558680-2c0d-11eb-9713-fd6a279d9036.PNG">
 
+I utilize the CSP Operation to send five different test file types, which end up in the watched directories, and classmethod ResetDLA can delete the files. 
