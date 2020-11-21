@@ -70,17 +70,15 @@ You may use .env/ file to adjust the dockerfile being used in docker-compose.
 ### Feeder.UnitTests.cls
 I created Feeder UnitTests class to Run Feeder.TestProduction, which extends %UnitTest.TestProduction, which tests a Production using the following steps. It starts the production (Feeder.FeederProduction), waits a certain time, stops the production, and checks results. I am not really interested in testing FeederProduction, instead I use it to send test messages to another production and then check the results of test messages processed in the target production. This is especially handy if the target production runs in multiple containers and it would be cumbersome to check each instance for messages, event logs, etc.
 
-I mainly use two methods, HealthTest and LBTest. HealthTest is intended to be used for checking the health of known IRIS instances by sending messages directly to an instance. LBTest is intended to be used for testing a deployment by sending messages to a load balancer which distributes messages for processing. HealthTest depends on IRIS instances being defined, which I hardcoded in Feeder.Util class (GetContainerArray). I like to enhance Feeder.csp to allow configuration of IRIS 
+I mainly use two methods, HealthTest and LBTest. HealthTest is intended to be used for checking the health of known IRIS instances by sending messages directly to an instance. LBTest is intended to be used for testing a deployment by sending messages to a load balancer which distributes messages for processing. HealthTest depends on IRIS instances being defined, which I hardcoded in Feeder.Util class (GetContainerArray). I like to some day enhance Feeder.csp to allow configuration of IRIS instances similar to how Enterprise Systems get configured in Management Portal.
 
-You can execute the following Tests from Terminal (IRIS session):
-
+Let's take a look at LBTest classmethod. It calls common Setup method, sets ^myUnitTestControl with values pointing to the Load Balancer, runs Feeder.TestProduction, and kills ^myUnitTestControl. You can configure Feeder to use any URL, it does not need to be a Load Balancer.
 
 ```
 $ docker-compose exec iris iris session iris
 If you are prompted to login, use "_SYSTEM" for username and the default password is "SYS".
 USER>zn "FEEDER"
-FEEDER>write ##class(Feeder.Util).TestMethod()
-You should see the following output:
-Your Feeder is ready.
-1
+FEEDER>write ##class(Feeder.UnitTests).LBTest()
+You will see output
+
 ```
