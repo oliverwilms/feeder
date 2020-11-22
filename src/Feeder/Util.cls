@@ -701,8 +701,8 @@ ClassMethod GetMsgBankReport(pIris As %String, pUnitTest As %String, ByRef pMsgB
 	Set tSC = $$$OK
 	Set objUnitTest = ##class(Feeder.Test).%OpenId(pUnitTest)
 	If '$IsObject(objUnitTest) { Quit tSC }
-	Write:pDEBUG "This UnitTest ",pUnitTest," began ",objFeeder.Start,!
-	Set tMyMsgBegin = objFeeder.Start
+	Write:pDEBUG "This UnitTest ",pUnitTest," began ",objUnitTest.Start,!
+	Set tMyMsgBegin = objUnitTest.Start
 	Set objUnitTest = ""
 	Set tMyMsgEnd = $H
 	Set objUnitTest = ##class(Feeder.Test).%OpenId(pUnitTest + 1)
