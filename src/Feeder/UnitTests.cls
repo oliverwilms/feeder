@@ -12,8 +12,8 @@ ClassMethod Setup(pFiles As %String = 1) As %Status
 	Set $Namespace = myNamespace
 	Set ^myUnitTestControl("Files") = pFiles
 	Set ^myUnitTestControl("Production") = "Feeder.FeederProduction"
-	Set tCodeClassName = $Get(^myUnitTestControl("TestData","ClassName"),"Feeder.UnitTestHelper")
-	Set tCodeClassMethod = $Get(^myUnitTestControl("TestData","ClassMethod"),"ACopy")
+	Set tCodeClassName = $Get(^myFeeder("Config","CodeClassName"),"Feeder.UnitTestHelper")
+	Set tCodeClassMethod = $Get(^myFeeder("Config","CodeClassMethod"),"ACopy")
 	Set tSC = $ClassMethod(tCodeClassName,tCodeClassMethod,pFiles)
 	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - Setup is done")
 	Quit tSC
