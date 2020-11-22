@@ -2,6 +2,11 @@
 Class Feeder.Process Extends Ens.BusinessProcessBPL
 {
 
+Storage Default
+{
+<Type>%Storage.Persistent</Type>
+}
+
 /// BPL Definition
 XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 {
@@ -14,13 +19,14 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </code>
 </true>
 </if>
+<call name='CSP Operation' target='CSP Operation' async='1' xpos='628' ypos='520' >
+<request type='Ens.StreamContainer' >
+<assign property="callrequest" value="request" action="set" />
+</request>
+<response type='Ens.Response' />
+</call>
 </sequence>
 </process>
-}
-
-Storage Default
-{
-<Type>%Storage.Persistent</Type>
 }
 
 }
