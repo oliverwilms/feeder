@@ -52,29 +52,29 @@ If (tMethod '= "") {
 <table><tr><td>
 <label for="iFiles">Number of Test Files:</label>
 </td><td>
-<input type="text" id="iFiles" name="iFiles" value="#($Get(tFiles))#"><br>
+<input type="text" id="iFiles" name="iFiles" size="150" value="#($Get(tFiles))#"><br>
 </td></tr><tr><td>
 Code to run for Test Files:
 </td></tr><tr><td>
 <label for="iCodeClassName">Class Name:</label>
 </td><td>
-<input type="text" id="iCodeClassName" name="iCodeClassName" value="#($Get(tCodeClassName))#"><br>
+<input type="text" id="iCodeClassName" name="iCodeClassName" size="150" value="#($Get(tCodeClassName))#"><br>
 </td></tr><tr><td>
 <label for="iCodeClassMethod">ClassMethod:</label>
 </td><td>
-<input type="text" id="iCodeClassMethod" name="iCodeClassMethod" value="#($Get(tCodeClassMethod))#"><br>
+<input type="text" id="iCodeClassMethod" name="iCodeClassMethod" size="150" value="#($Get(tCodeClassMethod))#"><br>
 </td></tr><tr><td>
 <label for="loadBalancer">Target Server:</label>
 </td><td>
-<input type="text" id="loadBalancer" name="loadBalancer" value="#($Get(tLB))#"><br>
+<input type="text" id="loadBalancer" name="loadBalancer" size="150" value="#($Get(tLB))#"><br>
 </td></tr><tr><td>
 <label for="iPort">Port:</label>
 </td><td>
-<input type="text" id="iPort" name="iPort" value="#($Get(tPort))#"><br>
+<input type="text" id="iPort" name="iPort" size="150" value="#($Get(tPort))#"><br>
 </td></tr><tr><td>
 <label for="cspURL">CSP Operation URL:</label>
 </td><td>
-<input type="text" id="cspURL" name="cspURL" value="#($Get(tURL))#"><br>
+<input type="text" id="cspURL" name="cspURL" size="150" value="#($Get(tURL))#"><br>
 </td></tr></table>
 <input type="submit" value="Submit">
 </form>
