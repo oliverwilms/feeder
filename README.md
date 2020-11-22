@@ -4,6 +4,27 @@ This solution contains an InterSystems IRIS Interoerability Production for sendi
 ## Why is there a Feeder?
 [Article](https://community.intersystems.com/post/file-passthrough-feeder)
 
+## What else can Feeder do?
+[Article](https://community.intersystems.com/post/what-else-can-feeder-do)
+
+## Test Report
+Open IRIS terminal:
+
+```
+$ docker-compose exec iris iris session iris
+If you are prompted to login, use "_SYSTEM" for username and the default password is "SYS".
+USER>zn "FEEDER"
+FEEDER>do ##class(Feeder.TestReport).Go()
+UnitTest 4 began 2020-11-22 15:28:56.454
+  It sent 5 messages between 15:28:56.509 and 15:28:56.531 (227.273 mps)
+    to internal-sqa-iris-app-alb-123456789.us-gov-west-1.elb.amazonaws.com:52773
+/restapi/UploadFile/
+  4 responses were 200 / OK
+  1 responses were 404 / Not Found
+  MsgBk before: 0 - after: 0
+    0 messages banked
+
+```
 ## Enhanced for Interoperability Contest
 The production has new BusinessProcessBPL process to automatically import CSV files using [csvgen](https://openexchange.intersystems.com/package/csvgen).
 <img width="1411" alt="Screenshot of BusinessProcessBPL" src="https://user-images.githubusercontent.com/50807396/99479975-d1c36a00-291c-11eb-8c3e-728c20c02caa.png">
