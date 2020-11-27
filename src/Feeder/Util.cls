@@ -498,7 +498,8 @@ ClassMethod StartUnitTest(pFiles As %Integer = 1) As %Boolean
 	Set tSC	= ..GetDateTimeOneInstance(0,.pDateTime)  // Updates ^myUnitTests
 	Set ^myUnitTests(myUnitTest) = $Get(pDateTime)_d_pFiles_d_myErrCount_d_myMsgCount
 	Set tMessageBank = $Get(^myFeeder("Config","MessageBankAddr"))
-	Set tSC	= ..GetDateTimeOneInstance(tMessageBank,.pDateTime,"/mbrest/DateTime")  // Updates ^myUnitTests
+	Set pIris = tMessageBank_":52773"
+	Set tSC	= ..GetDateTimeOneInstance(pIris,.pDateTime,"/mbrest/DateTime")  // Updates ^myUnitTests
 	Do ..GetDateTimes()
 	Set tSC = ..GetBases()
 	Quit 1
@@ -771,7 +772,9 @@ ClassMethod GetMsgBankParams(
 	Set objUnitTest = ""
 	// Adjust for DateTime diff this host versus MessageBank host
 	Set tMessageBank = $Get(^myFeeder("Config","MessageBankAddr"))
-	Set tDiff = $Get(^myUnitTests(pUnitTest,tMessageBank,"DateTimeDiff"),0)
+	Set pIris = tMessageBank_":52773"
+	// Allow 5 ms for executing rest call
+	Set tDiff = 5 - $Get(^myUnitTests(pUnitTest,pIris,"DateTimeDiff"),0)
 	Set tMyMsgBegin = ..AddDateTimeDiff(tMyMsgBegin,tDiff)
 	Set tMyMsgEnd = ..AddDateTimeDiff(tMyMsgEnd,tDiff)
 	Set tDelim = "^"
@@ -785,7 +788,7 @@ ClassMethod GetMsgBankReport(
 	ByRef pMsgBankCount As %String,
 	pDEBUG As %String = 1) As %Status
 {
-	//Do ..DebugTEST("Feeder.Util - GetMsgBankCount - "_$Get(pIris))
+	//Do ..DebugTEST("Feeder.Util - GetMsgBankReport - "_$Get(pIris))
 	Kill pMsgBankCount
 	Set tSC = $$$OK
 	Set objUnitTest = ##class(Feeder.Test).%OpenId(pUnitTest)
@@ -868,7 +871,7 @@ ClassMethod GetMsgBLogReport(
 	ByRef pMsgBankCount As %String,
 	pDEBUG As %String = 1) As %Status
 {
-	//Do ..DebugTEST("Feeder.Util - GetMsgBankCount - "_$Get(pIris))
+	//Do ..DebugTEST("Feeder.Util - GetMsgBLogReport - "_$Get(pIris))
 	Kill pMsgBankCount,pMsgBLog
 	Set tSC = $$$OK
 	Set tSearch = "DMLSS Document ID already exists in table with ID:"
