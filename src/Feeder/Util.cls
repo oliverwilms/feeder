@@ -729,26 +729,26 @@ ClassMethod GetFilesCount(
 
 ClassMethod GetMsgBankCount(
 	pIris As %String,
-	ByRef pMsgBankCount As %String) As %Status
+	ByRef pMsgBankCount As %String,
+	pDEBUG As %String = 1) As %Status
 {
 	//Do ..DebugTEST("Feeder.Util - GetMsgBankCount - "_$Get(pIris))
 	Kill pMsgBankCount
-	Set myNamespace = $Namespace
-	Set tNamespaceMsgBank = $Get(^myUnitTestControl("Namespace","MsgBank"),"ENTERPRISE")
-	//ZNSPACE "ENTERPRISE"
-	Set pQuery = "SELECT COUNT(*) FROM Ens_Enterprise_MsgBank.MessageHeader"
-	Set rs = ##class(%ResultSet).%New()
-	Set tSC = rs.Prepare(pQuery)
-	//Do ##class(Debug).DebugStatus(tSC)
-	If $$$ISOK(tSC) {
-		Set tSC = rs.Execute()
-		//Do ##class(Debug).DebugStatus(tSC)
-		If $$$ISOK(tSC), rs.Next() Set pMsgBankCount = rs.GetData(1)
+	Set pMsgBankCount = -1
+	#dim pResponseData As %DynamicObject
+	Set pResponseData = {}
+	Set tMessageBank = $Get(^myFeeder("Config","MessageBankAddr"))
+	Set pIris = tMessageBank_":52773"
+	Set pUrl = "/mbrest/MsgBankCount"
+	Set tSC = ##class(Util).CallRESTapi(pIris,pUrl,.pResponseData)
+	Do ##class(Util).DebugStatus(tSC)
+	Set itr = pResponseData.%GetIterator()
+	While itr.%GetNext(.key,.val) {
+		Write:pDEBUG !,key_": /"_val_"/, type: "_pResponseData.%GetTypeOf(key)
+		If (key = "MessageBankCount") Set pMsgBankCount = val
 	}
-	Do rs.Close()
-	Set rs = ""
-	//Do ##class(Debug).DebugTEST("pMsgBankCount = "_pMsgBankCount)
-	Set $Namespace = myNamespace
+	Write:pDEBUG !!
+	//Do ..DebugTEST("pMsgBankCount = "_pMsgBankCount)
 	Quit tSC
 }
 
