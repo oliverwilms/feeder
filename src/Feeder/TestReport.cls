@@ -39,7 +39,7 @@ ClassMethod WriteResponseReport(pUnitTest As %String = "") As %Status
 	Quit tSC
 }
 
-ClassMethod WriteUnitTestReport(pUnitTest As %String = "") As %Status
+ClassMethod WriteUnitTestReport(pUnitTest As %String = "", pDEBUG As %String = 0) As %Status
 {
 	Set tSC = $$$OK
 	Set objUnitTest = ##class(Feeder.Test).%OpenId(pUnitTest)
@@ -65,7 +65,7 @@ ClassMethod WriteUnitTestReport(pUnitTest As %String = "") As %Status
 	Set tSC = ..WriteUnitTestReportDocId(pUnitTest)
 	//Set tSC = ..WriteUnitTestReportMsgBLog(pUnitTest,.pNodes)
 	Write "  MsgBk before: ",objUnitTest.MsgBkBefore," - after: ",objUnitTest.MsgBkAfter,!
-	Set tSC = ..WriteUnitTestReportMsgBank(pUnitTest,.pNodes)
+	Set tSC = ..WriteUnitTestReportMsgBank(pUnitTest,pDEBUG)
 	Set objUnitTest = ""
 	Quit tSC
 }
@@ -105,23 +105,85 @@ ClassMethod WriteUnitTestReportDocId(pUnitTest As %String = "") As %Status
 	Quit tSC
 }
 
-ClassMethod WriteUnitTestReportMsgBank(pUnitTest As %String = "", ByRef pNodes) As %Status
+ClassMethod WriteUnitTestReportDynamicArray(dynArray As %DynamicArray = "", pLabel As %String = "", pDEBUG As %String = 1) As %Status
+{
+	Set itr = dynArray.%GetIterator()
+	While itr.%GetNext(.key,.val) {
+		Set tType = dynArray.%GetTypeOf(key)
+		If (tType = "object") { Set tSC = ..WriteUnitTestReportDynamicObject(.val,pLabel,pDEBUG) Continue }
+		Write:pDEBUG !,key_": /"_val_"/, type: "_pArray.%GetTypeOf(key)
+	}
+	Write:pDEBUG !!
+	Quit $$$OK
+}
+
+ClassMethod WriteUnitTestReportDynamicObject(dynObject As %DynamicObject = "", pLabel As %String, pDEBUG As %String = 1) As %Status
 {
 	//Write "  MsgBk before: ",objUnitTest.MsgBkBefore," - after: ",objUnitTest.MsgBkAfter,!
-	Set pDEBUG = 0
-	Set tSC = ##class(Util).GetMsgBankReport(0,pUnitTest,.pMsgBankReport,pDEBUG)
-	Set tDelim = $Extract(pMsgBankReport,1)
-	Set tMsgBankCount = $Piece(pMsgBankReport,tDelim,2)
+	Set itr = dynObject.%GetIterator()
+	While itr.%GetNext(.key,.val) {
+		Write:pDEBUG !,key_": /"_val_"/, type: "_dynObject.%GetTypeOf(key)
+		Set val(key) = val
+	}
+	Write:pDEBUG !!
+	Set tMsgBankCount = $Get(val("count"),0)
 	Set tDetails = ""
 	If tMsgBankCount {
-		Set tMyMsgBegin = $Piece(pMsgBankReport,tDelim,3)
-		Set tMyMsgEnd = $Piece(pMsgBankReport,tDelim,4)
+		Set tMyMsgBegin = ##class(Util).Timeout($Get(val("begin")))
+		Set tMyMsgEnd = ##class(Util).Timeout($Get(val("end")))
+		Set tMyMsgDiff = ##class(Util).GetDateTimeDiff(tMyMsgBegin,tMyMsgEnd)
+		//Set tDetails = " between "_tMyMsgBegin_" and "_tMyMsgEnd_" ("_tMyMsgDiff_" ms)"
+		Set tDetails = " btwn "_tMyMsgBegin_" and "_tMyMsgEnd_" ("_tMyMsgDiff_" ms)"
+	}
+	//Write "  ",$Get(pLabel,"Node")," ",$Get(val("id"))," sent ",tMsgBankCount," mess.",tDetails,!
+	Write "  ",$Get(pLabel,"Node")," ",$Get(val("id"))," had ",tMsgBankCount," mess.",tDetails,!
+	Quit $$$OK
+}
+
+ClassMethod WriteUnitTestReportMsgBank(pUnitTest As %String = "", pDEBUG As %String = 0) As %Status
+{
+	//Write "  MsgBk before: ",objUnitTest.MsgBkBefore," - after: ",objUnitTest.MsgBkAfter,!
+	#dim pResponseData As %DynamicObject
+	Set pResponseData = {}
+	Set tMessageBank = $Get(^myFeeder("Config","MessageBankAddr"))
+	//Set tSC = ##class(Util).GetMsgBankReport(0,pUnitTest,.pMsgBankReport,pDEBUG)
+	Set tParams = ##class(Util).GetMsgBankParams(pUnitTest,pDEBUG)
+	Set tDelim = $Extract(tParams,1)
+	Set pBegin = $Piece(tParams,tDelim,2)
+	Set pEnd = $Piece(tParams,tDelim,3)
+	Set pIris = tMessageBank_":52773"
+	Set pUrl = "/mbrest/MessageBankReport/"_pBegin_"/"_pEnd
+	//Set tSC = ##class(Ensemble).CallMBREST(pIris,pUrl,.pResponseData)
+	Set tSC = ##class(Util).CallRESTapi(pIris,pUrl,.pResponseData)
+	Do ##class(Util).DebugStatus(tSC)
+	Set itr = pResponseData.%GetIterator()
+	While itr.%GetNext(.key,.val) {
+		Write:pDEBUG !,key_": /"_val_"/, type: "_pResponseData.%GetTypeOf(key)
+		If (key = "total") Set tMsgBankCount = val
+		If (key = "first") Set tMyMsgBegin = val
+		If (key = "last") Set tMyMsgEnd = val
+		If (key = "nodes") Set tNodes = val
+		If (key = "Status") Set tStatus = val
+		If (key = "SourceConfigNames") Set tSources = val
+		If (key = "TargetConfigNames") Set tTargets = val
+	}
+	Write:pDEBUG !!
+
+	Set tDetails = ""
+	If tMsgBankCount {
 		Set tMyMsgDiff = ##class(Util).GetDateTimeDiff(tMyMsgBegin,tMyMsgEnd)
 		Set tMyMsgBegin = ##class(Util).Timeout(tMyMsgBegin)
 		Set tMyMsgEnd = ##class(Util).Timeout(tMyMsgEnd)
 		Set tDetails = " between "_tMyMsgBegin_" and "_tMyMsgEnd_" ("_tMyMsgDiff_" ms)"
 	}
 	Write "    ",tMsgBankCount," messages banked",tDetails,!
+	Set tSC = ..WriteUnitTestReportDynamicArray(.tStatus,"Status",pDEBUG)
+	Set tSC = ..WriteUnitTestReportDynamicArray(.tNodes,"Node",pDEBUG)
+	Set tSC = ..WriteUnitTestReportDynamicArray(.tSources,"Source",pDEBUG)
+	Set tSC = ..WriteUnitTestReportDynamicArray(.tTargets,"Target",pDEBUG)
+	Quit tSC
+
+	/*
 	Set pNodes = ""
 	For {
 		Set pNodes = $Order(pMsgBankReport("NodeId",pNodes))
@@ -160,6 +222,7 @@ ClassMethod WriteUnitTestReportMsgBank(pUnitTest As %String = "", ByRef pNodes) 
 		Write "  Target ",tTarget," banked ",$Get(pMsgBankReport("Target",tTarget))," mess.",!
 	}
 	Quit tSC
+	*/
 }
 
 }
