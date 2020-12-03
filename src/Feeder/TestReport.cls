@@ -1,11 +1,11 @@
 Class Feeder.TestReport
 {
 
-ClassMethod Go(pUnitTest As %String = "") As %Status
+ClassMethod Go(pUnitTest As %String = "", pDEBUG As %String = 0) As %Status
 {
 	Set tSC = $$$OK
 	If (pUnitTest = "") Set pUnitTest = $Get(^myUnitTests)
-	Set tSC = ..WriteUnitTestReport(pUnitTest)
+	Set tSC = ..WriteUnitTestReport(pUnitTest,pDEBUG)
 	Quit tSC
 }
 
@@ -107,13 +107,18 @@ ClassMethod WriteUnitTestReportDocId(pUnitTest As %String = "") As %Status
 
 ClassMethod WriteUnitTestReportDynamicArray(dynArray As %DynamicArray = "", pLabel As %String = "", pDEBUG As %String = 1) As %Status
 {
-	Set itr = dynArray.%GetIterator()
-	While itr.%GetNext(.key,.val) {
-		Set tType = dynArray.%GetTypeOf(key)
-		If (tType = "object") { Set tSC = ..WriteUnitTestReportDynamicObject(.val,pLabel,pDEBUG) Continue }
-		Write:pDEBUG !,key_": /"_val_"/, type: "_pArray.%GetTypeOf(key)
+	Try {
+		Set itr = dynArray.%GetIterator()
+		While itr.%GetNext(.key,.val) {
+			Set tType = dynArray.%GetTypeOf(key)
+			If (tType = "object") { Set tSC = ..WriteUnitTestReportDynamicObject(.val,pLabel,pDEBUG) Continue }
+			Write:pDEBUG !,key_": /"_val_"/, type: "_pArray.%GetTypeOf(key)
+		}
+		Write:pDEBUG !!
 	}
-	Write:pDEBUG !!
+	Catch {
+		Set tSC = $$$OK
+	}
 	Quit $$$OK
 }
 
@@ -140,7 +145,7 @@ ClassMethod WriteUnitTestReportDynamicObject(dynObject As %DynamicObject = "", p
 	Quit $$$OK
 }
 
-ClassMethod WriteUnitTestReportMsgBank(pUnitTest As %String = "", pDEBUG As %String = 0) As %Status
+ClassMethod WriteUnitTestReportMsgBank(pUnitTest As %String = "", pDEBUG As %String = 1) As %Status
 {
 	//Write "  MsgBk before: ",objUnitTest.MsgBkBefore," - after: ",objUnitTest.MsgBkAfter,!
 	#dim pResponseData As %DynamicObject
@@ -153,6 +158,7 @@ ClassMethod WriteUnitTestReportMsgBank(pUnitTest As %String = "", pDEBUG As %Str
 	Set pEnd = $Piece(tParams,tDelim,3)
 	Set pIris = tMessageBank_":52773"
 	Set pUrl = "/mbrest/MessageBankReport/"_pBegin_"/"_pEnd
+	//Set pUrl = "/mbrest/MessageBankReport/"_pBegin_"/"_pEnd_"/"_pDEBUG
 	//Set tSC = ##class(Ensemble).CallMBREST(pIris,pUrl,.pResponseData)
 	Set tSC = ##class(Util).CallRESTapi(pIris,pUrl,.pResponseData)
 	Do ##class(Util).DebugStatus(tSC)
@@ -170,6 +176,7 @@ ClassMethod WriteUnitTestReportMsgBank(pUnitTest As %String = "", pDEBUG As %Str
 	Write:pDEBUG !!
 
 	Set tDetails = ""
+	Set tMsgBankCount = $Get(tMsgBankCount,0)
 	If tMsgBankCount {
 		Set tMyMsgDiff = ##class(Util).GetDateTimeDiff(tMyMsgBegin,tMyMsgEnd)
 		Set tMyMsgBegin = ##class(Util).Timeout(tMyMsgBegin)
