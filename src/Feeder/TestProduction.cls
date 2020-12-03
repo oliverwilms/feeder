@@ -11,7 +11,7 @@ Parameter MAXWAIT = 10;
 /// Minimum time to let production run before collecting event log entries of type "infouser" and check for results. 
 /// The default is 10 seconds, override if necessary.  This varies with the production; some productions only
 /// need to run for a little time, and some require more time.
-Parameter MINRUN = 10;
+Parameter MINRUN As COSEXPRESSION = "10 + ($Get(^myUnitTestControl(""Files""))/2)";
 
 /// If any errors appear in the Event Log during execution of the production, the test will fail.
 /// If errors are expected to happen, override this parameter. 
@@ -20,9 +20,7 @@ Parameter IGNOREPRODUCTIONERRORS = 1;
 
 // 1 because I want to execute method <method>CheckErrors</method>.
 
-ClassMethod DebugMerge(
-	strMessage As %String = "",
-	ByRef pArray) As %Status
+ClassMethod DebugMerge(strMessage As %String = "", ByRef pArray) As %Status
 {
 	Merge ^TESTunit($I(^TESTunit)) = pArray
 	Set tValue = ""
@@ -131,9 +129,7 @@ Method OnAfterProductionStart() As %Status
 /// see method <method>GetEventLog</method>. <br>
 /// Return $$$OK in most cases, or an error status if you want to indicate that there was a failure.  Remember 
 /// that failures are automatic when unit test macros are used.<br>
-Method CheckResults(
-	ByRef Log As %String,
-	New As %String) As %Status
+Method CheckResults(ByRef Log As %String, New As %String) As %Status
 {
 	Do ..DebugTEST("CheckResults")
 	Do ..DebugMerge("Log",.Log)
@@ -264,10 +260,7 @@ Method TestErrorsAfterStop() As %Status
 	Quit tSC
 }
 
-ClassMethod ValidateConfiguration(
-	ByRef pServer As %String,
-	ByRef pPort As %String,
-	ByRef pURL As %String) As %Status
+ClassMethod ValidateConfiguration(ByRef pServer As %String, ByRef pPort As %String, ByRef pURL As %String) As %Status
 {
 	Do ..DebugTEST("ValidateConfiguration")
 	Do ..DebugTEST("pServer = "_$Get(pServer))
