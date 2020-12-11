@@ -27,8 +27,10 @@ XData setup
 
 ClassMethod CreateWebAppFeederapp(pVars,pLogLevel,tInstaller) As %Status
 {
+	If $IsObject($Get(tInstaller)) {
   Set Namespace = tInstaller.Evaluate("${Namespace}")
   Do tInstaller.PushNS("%SYS")
+	}
   Do ##class(Security.System).GetInstallationSecuritySetting(.security)
   If (security="None") {
     Set cspProperties("AutheEnabled") = $$$AutheUnauthenticated
