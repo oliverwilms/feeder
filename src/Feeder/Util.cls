@@ -282,7 +282,7 @@ ClassMethod GetBasesOneInstance(pIris As %String) As %Status
 ClassMethod GetMessageBankAddr() As %String
 {
 	Set pMessageBankAddr = $Get(^myFeeder("Config","MessageBankAddr"))
-	//If $Length(pMessageBankAddr,":") = 1 Set pMessageBankAddr = pMessageBankAddr_":52773"
+	If $Length(pMessageBankAddr,":") = 1 Set pMessageBankAddr = pMessageBankAddr_":52773"
 	Quit pMessageBankAddr
 }
 
