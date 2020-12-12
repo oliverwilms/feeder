@@ -37,6 +37,10 @@ If ($Data(%request.Data("cspURL",1))) {
 	Set tURL = %request.Data("cspURL",1)
 	If (tURL '= "") Set tSC = ##class(Feeder.Util).UpdateURL(tURL)
 }
+If ($Data(%request.Data("iMessageBank",1))) {
+	Set tMessageBank = %request.Data("iMessageBank",1)
+	If (tMessageBank '= "") Set tSC = ##class(Feeder.Util).UpdateMessageBankAddr(tMessageBank)
+}
 If (tMethod '= "") {
 	Job $CLASSMETHOD("Feeder.UnitTests",tMethod,tFiles)
 }
@@ -75,6 +79,10 @@ Code to run for Test Files:
 <label for="cspURL">CSP Operation URL:</label>
 </td><td>
 <input type="text" id="cspURL" name="cspURL" size="150" value="#($Get(tURL))#"><br>
+</td></tr><tr><td>
+<label for="iMessageBank">Message Bank Address:</label>
+</td><td>
+<input type="text" id="iMessageBank" name="iMessageBank" size="150" value="#($Get(tMessageBank))#"><br>
 </td></tr></table>
 <input type="submit" value="Submit">
 </form>
