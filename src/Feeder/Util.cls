@@ -279,6 +279,13 @@ ClassMethod GetBasesOneInstance(pIris As %String) As %Status
 	Quit tSC
 }
 
+ClassMethod GetMessageBankAddr() As %String
+{
+	Set pMessageBankAddr = $Get(^myFeeder("Config","MessageBankAddr"))
+	//If $Length(pMessageBankAddr,":") = 1 Set pMessageBankAddr = pMessageBankAddr_":52773"
+	Quit pMessageBankAddr
+}
+
 ClassMethod GetProductionStates(
 	pServer As %String,
 	pPort As %String,
@@ -497,8 +504,8 @@ ClassMethod StartUnitTest(pFiles As %Integer = 1) As %Boolean
 	Set myUnitTest = $Increment(^myUnitTests)
 	Set tSC	= ..GetDateTimeOneInstance(0,.pDateTime)  // Updates ^myUnitTests
 	Set ^myUnitTests(myUnitTest) = $Get(pDateTime)_d_pFiles_d_myErrCount_d_myMsgCount
-	Set tMessageBank = $Get(^myFeeder("Config","MessageBankAddr"))
-	Set pIris = tMessageBank_":52773"
+	Set pIris = ..GetMessageBankAddr()
+	If ($Length(pIris,":") < 2) Set pIris = pIris_":52773"
 	Set tSC	= ..GetDateTimeOneInstance(pIris,.pDateTime,"/mbrest/DateTime")  // Updates ^myUnitTests
 	Do ..GetDateTimes()
 	Set tSC = ..GetBases()
@@ -730,7 +737,7 @@ ClassMethod GetFilesCount(
 ClassMethod GetMsgBankCount(
 	pIris As %String,
 	ByRef pMsgBankCount As %String,
-	pDEBUG As %String = 1) As %Status
+	pDEBUG As %String = 0) As %Status
 {
 	//Do ..DebugTEST("Feeder.Util - GetMsgBankCount - "_$Get(pIris))
 	Kill pMsgBankCount
