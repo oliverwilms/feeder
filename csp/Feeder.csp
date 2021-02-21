@@ -98,7 +98,7 @@ For {
 	If ($Increment(tRow) > 4) { Quit }
 }
 Write "</textarea>","<br>",!
-Write "<a href='/csp/sys/exp/UtilExpGlobalView.csp?$ID2=TESTunit&$NAMESPACE=",$Namespace,"'>View Debug Global"
+Write "<a href='/csp/sys/exp/UtilExpGlobalView.csp?$ID2=TESTunit&$NAMESPACE=",$Namespace,"'>View Debug Global</a>"
 </script>
 </body>
 </html>
