@@ -22,7 +22,7 @@ RUN iris start IRIS \
     && iris session IRIS -U %SYS < /tmp/iris.script \
     && iris stop IRIS quietly
 
-HEALTHCHECK --interval=10s --timeout=3s --retries=2 CMD wget localhost:52773/csp/user/cache_status.cxw || exit 1
+HEALTHCHECK --interval=10s --timeout=3s --retries=2 CMD wget --timeout 1 --quiet http://localhost:52773/csp/user/cache_status.cxw -O - || exit 1
 
 USER root
 COPY vcopy.sh vcopy.sh
