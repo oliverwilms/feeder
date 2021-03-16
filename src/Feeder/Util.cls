@@ -708,7 +708,7 @@ ClassMethod GetDocumentId(
 	pDEBUG As %Integer = 1) As %Status
 {
 	Do:pDEBUG ..DebugTEST("Feeder.Util - GetDocumentId - "_$Get(pIris))
-	Kill pDocumentId
+	//Kill pDocumentId
 	Set pUrl = "/restapi/DocumentId"
 	Set tSC = ..CallRESTapi(pIris,pUrl,.obj)
 	If $$$ISERR(tSC) Do:pDEBUG ..DebugStatus(tSC)
