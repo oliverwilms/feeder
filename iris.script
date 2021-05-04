@@ -3,5 +3,4 @@ do $SYSTEM.OBJ.Load("/opt/feeder/Installer.cls", "ck")
 set sc = ##class(App.Installer).setup() 
 do ##class(Security.Users).UnExpireUserPasswords("*")
 zn "FEEDER"
-zpm "install csvgen"
 halt
