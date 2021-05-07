@@ -17,20 +17,34 @@ Parameter SETTINGS = "Server,Port,URL";
 Method SendMessage(
 	pRequest As Ens.StreamContainer,
 	Output pResponse As Ens.Response,
-	pDEBUG As %String = 1) As %Status
+	pDEBUG As %String = 2) As %Status
 {
 	If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("Feeder.CSPOperation")
 	Set tErrorCount = 0
 	Set tFilename = ##class(%File).GetFilename(pRequest.OriginalFilename)
 	If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("OriginalFilename = "_tFilename)
+	Try {
+		Set tStreamSize = pRequest.Stream.Size
+	}
+	Catch {
+		Set tStreamSize = -1
+	}
+	If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("Stream Size = "_tStreamSize)
 	Set type = "POST"
 	If (..URL = "") {
 		Set location = "/csp/feeder/test.csp?FILENAME="_tFilename
 	} Else {
-		If (..URL = "csp/user/cache_status.cxw") {
-			Set location = ..URL  // /csp/user/cache_status.cxw
-		} Else {
+		Set test = 0
+		If (..URL [ "csp/user/cache_status.cxw") {
+			Set test = 1
+		}
+		If (..URL [ "csp/bin/mirror_status.cxw") {
+			Set test = 1
+		}
+		If (test = 0) {
 			Set location = ..URL_tFilename
+		} Else {
+			Set location = ..URL
 		}
 	}
 	If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("location = "_location)
