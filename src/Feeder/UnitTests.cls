@@ -19,6 +19,48 @@ ClassMethod Setup(pFiles As %String = 1) As %Status
 	Quit tSC
 }
 
+ClassMethod CCS(
+	pFiles As %String = 1,
+	pPort As %Integer = 2022) As %Status
+{
+	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - CCS")
+
+	Set ^myFeeder("Config","CodeClassName") = "User.DLATest"
+	Set ^myFeeder("Config","CodeClassMethod") = "CopyFilesCCS"
+
+	Set tSC = ..Setup(pFiles)
+	//Set ^myUnitTestControl("Server") = ##class(Feeder.Util).whichLoadBalancer()
+	//Set ^myUnitTestControl("URL") = ##class(Feeder.Util).whichURL()
+	//Set ^myUnitTestControl("Port") = pPort
+	Set ^myUnitTestControl("Files") = pFiles
+	Set ^UnitTestRoot = ""
+	Do ##class(Feeder.TestProduction).Run()
+	Kill ^myUnitTestControl
+	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - CCS is done")
+	Quit $$$OK
+}
+
+ClassMethod FSC(
+	pFiles As %String = 1,
+	pPort As %Integer = 52773) As %Status
+{
+	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - FSC")
+
+	Set ^myFeeder("Config","CodeClassName") = "User.FSCTest"
+	Set ^myFeeder("Config","CodeClassMethod") = "CopyFiles"
+
+	Set tSC = ..Setup(pFiles)
+	//Set ^myUnitTestControl("Server") = ##class(Feeder.Util).whichLoadBalancer()
+	//Set ^myUnitTestControl("URL") = ##class(Feeder.Util).whichURL()
+	//Set ^myUnitTestControl("Port") = pPort
+	Set ^myUnitTestControl("Files") = pFiles
+	Set ^UnitTestRoot = ""
+	Do ##class(Feeder.TestProduction).Run()
+	Kill ^myUnitTestControl
+	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - FSC is done")
+	Quit $$$OK
+}
+
 /// Use "CC" for pFiles to test CCS
 ClassMethod HealthTest(pFiles As %String = 1) As %Status
 {
@@ -57,6 +99,48 @@ ClassMethod LBTest(
 	Quit $$$OK
 }
 
+ClassMethod POC(
+	pFiles As %String = 1,
+	pPort As %Integer = 52773) As %Status
+{
+	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - POC")
+
+	Set ^myFeeder("Config","CodeClassName") = "Feeder.POC"
+	Set ^myFeeder("Config","CodeClassMethod") = "CopyFiles"
+
+	Set tSC = ..Setup(pFiles)
+	//Set ^myUnitTestControl("Server") = ##class(Feeder.Util).whichLoadBalancer()
+	//Set ^myUnitTestControl("URL") = ##class(Feeder.Util).whichURL()
+	//Set ^myUnitTestControl("Port") = pPort
+	Set ^myUnitTestControl("Files") = pFiles
+	Set ^UnitTestRoot = ""
+	Do ##class(Feeder.TestProduction).Run()
+	Kill ^myUnitTestControl
+	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - POC is done")
+	Quit $$$OK
+}
+
+ClassMethod POU(
+	pFiles As %String = 1,
+	pPort As %Integer = 52773) As %Status
+{
+	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - POU")
+
+	Set ^myFeeder("Config","CodeClassName") = "Feeder.POU"
+	Set ^myFeeder("Config","CodeClassMethod") = "CopyFiles"
+
+	Set tSC = ..Setup(pFiles)
+	//Set ^myUnitTestControl("Server") = ##class(Feeder.Util).whichLoadBalancer()
+	//Set ^myUnitTestControl("URL") = ##class(Feeder.Util).whichURL()
+	//Set ^myUnitTestControl("Port") = pPort
+	Set ^myUnitTestControl("Files") = pFiles
+	Set ^UnitTestRoot = ""
+	Do ##class(Feeder.TestProduction).Run()
+	Kill ^myUnitTestControl
+	Do ##class(Feeder.Util).DebugTEST("Feeder.UnitTests - POU is done")
+	Quit $$$OK
+}
+
 /// When using DebugRunTestCase, mytests directory need not actually contain MyPackage.Tests.
 /// By contrast RunTest always requires that the test to be executed be contained in a subdirectory of ^UnitTestRoot even when using “/noload”.
 ClassMethod Init(pFiles As %String = 1) As %Status
@@ -69,7 +153,6 @@ ClassMethod Init(pFiles As %String = 1) As %Status
 	//Do ##class(%UnitTest.Manager).RunTest("mytests:MyPackage.Tests", "/noload/nodelete")
 	//
 	//Do ##class(%UnitTest.Manager).DebugRunTestCase("mytests","Oliver.TestCase","","")
-	//
 	//
 	Set ^myUnitTestControl("Files") = pFiles
 	Set ^UnitTestRoot = ""
