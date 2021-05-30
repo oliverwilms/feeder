@@ -35,25 +35,25 @@ Method SendMessage(
 	}
 	If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("Stream Size = "_tStreamSize)
 	Set type = "POST"
-	Set location = ..Adapter.URL_tFilename
-	/*
-	If (..URL = "") {
-		Set location = "/csp/feeder/test.csp?FILENAME="_tFilename
+	Set location = ..Adapter.URL
+	Set tServer = ..Adapter.HTTPServer
+	Set tPort = ..Adapter.HTTPPort
+	If (location = "") {
+		Set location = "/restapi/UploadFile/"_tFilename
 	} Else {
 		Set test = 0
-		If (..URL [ "csp/user/cache_status.cxw") {
+		If (location [ "csp/user/cache_status.cxw") {
 			Set test = 1
 		}
-		If (..URL [ "csp/bin/mirror_status.cxw") {
+		If (location [ "csp/bin/mirror_status.cxw") {
 			Set test = 1
 		}
 		If (test = 0) {
-			Set location = ..URL_tFilename
+			Set location = location_tFilename
 		} Else {
-			Set location = ..URL
+			//Set location = ..URL
 		}
 	}
-	*/
 	If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("location = "_location)
 	Set test = 0
 	Set reset = 1
