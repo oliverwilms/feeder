@@ -83,14 +83,15 @@ Method SendMessage(
 		If $$$ISERR(tSC) Do ##class(Feeder.Util).DebugStatus(tSC)
 		#dim objResponseTime As Feeder.ResponseTime
 		Set objResponseTime = ##class(Feeder.ResponseTime).NewRequest(tRequest,location)
+		Set tSC = objResponseTime.%Save()
+		If $$$ISERR(tSC) Do ##class(Feeder.Util).DebugStatus(tSC)
 		Set boolAdapter = 1
 		Set tData = "We are "_$Select(boolAdapter:"",1:"not ")_"using Adapter"
 		If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST(tData)
 		If (boolAdapter = 0) Set tSC = tRequest.Send(type,location,test,reset)
 
-		Set tData = ""
-		If boolAdapter Set tSC = ..Adapter.Get(.tResponse,,.tData)  // !!!
-		
+		//Set tData = ""
+		If boolAdapter Set tSC = ..Adapter.Post(.tResponse,,pRequest.Stream)
 		If $$$ISERR(tSC) Do ##class(Feeder.Util).DebugStatus(tSC)
 		#dim tResponse As %Net.HttpResponse
 		If (boolAdapter = 0) Set tResponse = tRequest.HttpResponse
@@ -101,6 +102,7 @@ Method SendMessage(
 			Set tLogResponse = tResponse.StatusCode_" / "_tResponse.ReasonPhrase
 			If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("StatusCode/Reason = "_tLogResponse)
 		} Else {
+			Set tSC = objResponseTime.SaveStatus(tSC)
 			If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("HttpResponse = "_tResponse)
 		}
 	} While tRetryFlag
