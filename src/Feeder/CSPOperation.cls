@@ -1,6 +1,9 @@
 Class Feeder.CSPOperation Extends Ens.BusinessOperation
 {
 
+Parameter ADAPTER = "EnsLib.HTTP.OutboundAdapter";
+
+/*
 /// Server to connect to (optional). If not specified, it defaults to 'localhost'.
 Property Server As %String(MAXLEN = 255);
 
@@ -9,11 +12,12 @@ Property Port As %String(MAXLEN = 6);
 
 /// URL to connect to (optional). If not specified, it defaults to '/csp/feeder/test.csp?FILENAME='.
 Property URL As %String(MAXLEN = 255);
-
+*/
 Parameter INVOCATION = "Queue";
 
+/*
 Parameter SETTINGS = "Server,Port,URL";
-
+*/
 Method SendMessage(
 	pRequest As Ens.StreamContainer,
 	Output pResponse As Ens.Response,
@@ -31,6 +35,8 @@ Method SendMessage(
 	}
 	If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("Stream Size = "_tStreamSize)
 	Set type = "POST"
+	Set location = ..Adapter.URL_tFilename
+	/*
 	If (..URL = "") {
 		Set location = "/csp/feeder/test.csp?FILENAME="_tFilename
 	} Else {
@@ -47,6 +53,7 @@ Method SendMessage(
 			Set location = ..URL
 		}
 	}
+	*/
 	If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("location = "_location)
 	Set test = 0
 	Set reset = 1
@@ -54,6 +61,7 @@ Method SendMessage(
 		Set tRetryFlag = 0
 		Set pResponse = $$$NULLOREF
 		Set tRequest = ##class(%Net.HttpRequest).%New()
+		/*
 		// InitiateAuthentication does not exist in HealthShare versions
 		Try {
 			Set tRequest.InitiateAuthentication = ""
@@ -65,22 +73,30 @@ Method SendMessage(
 			}
 		} Catch {
 		}
-
+		*/
 		//Set tRequest.Server = ""  // This defaults to 'localhost', i.e. your current machine if not specified.
-		Set tRequest.Port = ..Port
-		If (..Server '= "") Set tRequest.Server = ..Server
-		If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("Server:Port = "_..Server_":"_..Port)
+		Set tRequest.Server = tServer
+		Set tRequest.Port = tPort
+		//If (..Server '= "") Set tRequest.Server = ..Server
+		If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("Server:Port = "_tServer_":"_tPort)
 		Set tSC = tRequest.EntityBody.CopyFrom(pRequest.Stream)
 		If $$$ISERR(tSC) Do ##class(Feeder.Util).DebugStatus(tSC)
 		#dim objResponseTime As Feeder.ResponseTime
 		Set objResponseTime = ##class(Feeder.ResponseTime).NewRequest(tRequest,location)
-		Set tSC = tRequest.Send(type,location,test,reset)
+		Set boolAdapter = 1
+		Set tData = "We are "_$Select(boolAdapter:"",1:"not ")_"using Adapter"
+		If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST(tData)
+		If (boolAdapter = 0) Set tSC = tRequest.Send(type,location,test,reset)
+
+		Set tData = ""
+		If boolAdapter Set tSC = ..Adapter.Get(.tResponse,,.tData)  // !!!
+		
 		If $$$ISERR(tSC) Do ##class(Feeder.Util).DebugStatus(tSC)
 		#dim tResponse As %Net.HttpResponse
-		Set tResponse = tRequest.HttpResponse
+		If (boolAdapter = 0) Set tResponse = tRequest.HttpResponse
 		If $IsObject(tResponse) {
 			Set tSC = objResponseTime.SaveResponse(tResponse)
-			If (tResponse.StatusCode = 500), ($Increment(tErrorCount) = 1) Set tRetryFlag = 1
+			//If (tResponse.StatusCode = 500), ($Increment(tErrorCount) = 1) Set tRetryFlag = 1
 			If (tResponse.StatusCode = 503), ($Increment(tErrorCount) = 1) Set tRetryFlag = 1
 			Set tLogResponse = tResponse.StatusCode_" / "_tResponse.ReasonPhrase
 			If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("StatusCode/Reason = "_tLogResponse)
@@ -88,7 +104,7 @@ Method SendMessage(
 			If (pDEBUG > 1) Do ##class(Feeder.Util).DebugTEST("HttpResponse = "_tResponse)
 		}
 	} While tRetryFlag
-	If (pDEBUG = 1) {
+	If (pDEBUG > 0) {
 		Set tLog = "CSPOperation - "_tFilename_" - "_$Get(tLogResponse,$Get(tResponse))
 		Do ##class(Feeder.Util).DebugTEST(tLog)
 	}
