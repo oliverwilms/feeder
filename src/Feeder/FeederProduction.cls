@@ -25,8 +25,7 @@ XData ProductionDefinition
   <Description></Description>
   <ActorPoolSize>2</ActorPoolSize>
   <Item Name="CSP Operation" Category="" ClassName="Feeder.CSPOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="Port">52773</Setting>
-    <Setting Target="Host" Name="URL">/csp/user/cache_status.cxw</Setting>
+    <Setting Target="Adapter" Name="HTTPPort">443</Setting>
   </Item>
   <Item Name="File Passthrough Service" Category="" ClassName="EnsLib.File.PassthroughService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="TargetConfigNames">BusinessProcessBPL</Setting>
